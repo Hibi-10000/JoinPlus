@@ -3,6 +3,11 @@
   <groupId>com.github.hibi_10000.plugins</groupId>
   <artifactId>JoinPlus</artifactId>
   <version>1.2.0</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
   <build>
     <resources>
       <resource>
