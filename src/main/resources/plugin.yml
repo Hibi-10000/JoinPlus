@@ -1,0 +1,13 @@
+name: JoinPlus
+main: com.github.hibi_10000.plugins.joinplus.JoinPlus
+version: ${project.version}
+api-version: 1.17
+author: Hibi_10000
+commands:
+  joinplus:
+    description: JoinPlus command.
+    permission: joinplus.command
+permissions:
+  joinplus.command:
+    description: Permission to use the /joinplus command.
+    default: op

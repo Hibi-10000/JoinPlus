@@ -1,0 +1,17 @@
+messages:
+  first-join-message:
+    enabled: true
+    message: '&b%player_name% &7 has joined for the first time!'
+  join-message:
+    enabled: true
+    message: '&a--> &e%player_name%&a connected from &b%player_country% &r(&b%player_ip%&r)&a.'
+  quit-message:
+    enabled: true
+    message: '&c<-- &e%player_name%&c disconnected.'
+  kick-message:
+    enabled: true
+    message: '&c<-- &e%player_name%&c was kicked%reason%.'
+GeoLite2:
+  Download-URL: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
+  LicenseKey: LICENSEKEY_HERE
+  LastDBUpdate: 2022/04/19
