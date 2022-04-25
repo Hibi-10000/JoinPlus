@@ -12,8 +12,6 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -83,6 +81,8 @@ public class GeoIPUtil {
 								logger.info("GeoLite2データベースのアップデートが完了しました");
 								break;
 							}
+						} else {
+							ConfigUtil.setGeoLite2LastDBUpdate(entry.getName().replace("GeoLite2-Country_","").replace("/",""));
 						}
 					}
 				}
@@ -101,11 +101,6 @@ public class GeoIPUtil {
 			logger.log(Level.SEVERE, "GeoLite2のダウンロードサーバーに接続できませんでした:", ex);
 			return false;
 		}
-		databasefile = new File(plugin.getDataFolder(), "GeoLite2-Country.mmdb");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		//Date date = new Date(databaseFile.lastModified()*1000);
-		Date date = new Date();
-		ConfigUtil.setGeoLite2LastDBUpdate(sdf.format(date));
 		return true;
 	}
 }

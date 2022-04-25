@@ -4,6 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class ConfigUtil {
 	static JoinPlus plugin;
 	static FileConfiguration config;
@@ -35,15 +37,19 @@ public class ConfigUtil {
 
 	public static String getGeoLite2LastDBUpdate() {return config.getString("GeoLite2.LastDBUpdate");}
 
-	public static void setGeoLite2LastDBUpdate(String date) {config.set("GeoLite2.LastDBUpdate", date);}
+	public static void setGeoLite2LastDBUpdate(String date) {
+		config.set("GeoLite2.LastDBUpdate", date);
+		plugin.saveConfig();
+	}
 
 	public static String replaceVariables(String string, Player player) {
 		string = string.replace("%player_name%", player.getName());
 		string = string.replace("%player_display_name%", player.getDisplayName());
 		string = string.replace("%player_uuid%", player.getUniqueId().toString());
-		string = string.replace("%player_country%", plugin.geoutil.getCountry(player.getAddress().getAddress()));
-		//string = string.replace("%player_city%", geoutil.getCity(player));
-		//string = string.replace("%total_players%", getTotalPlayerCount() + "");
+		string = string.replace("%player_country%", plugin.geoutil.getCountry(Objects.requireNonNull(player.getAddress()).getAddress()));
+		//string = string.replace("%player_city%", plugin.geoutil.getCity(player.getAddress().getAddress()));
+		string = string.replace("%total_players%", String.valueOf(plugin.getServer().getOnlinePlayers().size()));
+		string = string.replace("%max_players%",String.valueOf(plugin.getServer().getMaxPlayers()));
 		string = string.replace("%player_ip%", player.getAddress().getAddress().getHostAddress());
 		//string = string.replace("%new_line%", "\n");
 		string = string.replace("%reason%", "");

@@ -13,5 +13,5 @@ messages:
     message: '&c<-- &e%player_name%&c was kicked%reason%.'
 GeoLite2:
   Download-URL: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
-  LicenseKey: LICENSEKEY_HERE
-  LastDBUpdate: 2022/04/19
+  LicenseKey: 'LICENSEKEY_HERE'
+  LastDBUpdate: '20220419'

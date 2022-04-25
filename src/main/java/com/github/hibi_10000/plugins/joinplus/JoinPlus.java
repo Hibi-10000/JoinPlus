@@ -43,20 +43,21 @@ public class JoinPlus extends JavaPlugin {
       }
     }
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     long lastUpdated;
     try {
       lastUpdated = sdf.parse(ConfigUtil.getGeoLite2LastDBUpdate()).getTime();
     } catch (ParseException e) {
-      getLogger().severe(e.getLocalizedMessage());
-      lastUpdated = databasefile.lastModified();
+      lastUpdated = new Date(1650326400).getTime();
     }
 
     final long diff = new Date().getTime() - lastUpdated;
-    if ((diff * 24 * 3600 * 1000) > 30) {
+    if ((diff / 1000 / 3600 / 24) > 7) {
       geoutil.updateDB();
     }
   }
+
+  @Override public void onDisable() {saveConfig();}
 
   @Override
   public boolean onCommand(CommandSender cs, Command cmnd, String alias, String[] args) {
@@ -77,6 +78,7 @@ public class JoinPlus extends JavaPlugin {
     } 
     if (args[0].equalsIgnoreCase("reload")) {
       if (cs.hasPermission("joinplus.reload")) {
+        saveConfig();
         reloadConfig();
         ConfigUtil.setPluginInstance(this);
         cs.sendMessage(formatCommandResponse("Configuration reloaded."));
