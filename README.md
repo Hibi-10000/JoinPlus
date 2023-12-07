@@ -30,16 +30,16 @@ Bukkit Plugin for Bukkit 1.17.1~
 #### Placeholder
 `messages`に使用できるプレースホルダーの一覧です
 
-| Placeholder           | 値                                    | 
-|:----------------------|:-------------------------------------|
-| %player_name%         | プレイヤーのID                             |
-| %player_display_name% | プレイヤーのニックネーム等                        |
-| %player_uuid%         | プレイヤーのUUID                           |
-| %player_country%      | プレイヤーの接続元の国                          |
-| %player_ip%           | プレイヤーのIPアドレス                         |
-| %total_players%       | サーバー内の合計プレイヤー数                       |
-| %max_players%         | サーバー設定のmax-playersの値                 |
-| %reason%              | (Kickのみ)キックされた理由`(Reason: <reason>)` |
+| Placeholder           | 値                    |
+|:----------------------|:---------------------|
+| %player_name%         | プレイヤーのID             |
+| %player_display_name% | プレイヤーのニックネーム等        |
+| %player_uuid%         | プレイヤーのUUID           |
+| %player_country%      | プレイヤーの接続元の国          |
+| %player_ip%           | プレイヤーのIPアドレス         |
+| %total_players%       | サーバー内の合計プレイヤー数       |
+| %max_players%         | サーバー設定のmax-playersの値 |
+| %reason%              | (Kick時のみ)キックされた理由    |
 
 ### GeoLite2
 #### Download-URL

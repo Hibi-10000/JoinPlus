@@ -10,7 +10,7 @@ messages:
     message: '&c<-- &e%player_display_name%&c disconnected.'
   kick-message:
     enabled: true
-    message: '&c<-- &e%player_display_name%&c was kicked%reason%.'
+    message: '&c<-- &e%player_display_name%&c was kicked (Reason: %reason%).'
 GeoLite2:
   Download-URL: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
   LicenseKey: 'LICENSEKEY_HERE'

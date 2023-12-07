@@ -75,12 +75,11 @@ public class ConfigUtil {
         string = string.replace("%max_players%", String.valueOf(plugin.getServer().getMaxPlayers()));
         string = string.replace("%player_ip%", player.getAddress().getAddress().getHostAddress());
         //string = string.replace("%new_line%", "\n");
-        string = string.replace("%reason%", "");
         string = ChatColor.translateAlternateColorCodes('&', string);
         return string;
     }
 
     public static String replaceVariables(String string, Player player, String reason) {
-        return replaceVariables(string.replace("%reason%", "(Reason: " + reason + ")"), player);
+        return replaceVariables(string.replace("%reason%", reason), player);
     }
 }
