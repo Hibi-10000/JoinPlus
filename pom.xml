@@ -27,31 +27,34 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
+        <artifactId>maven-jar-plugin</artifactId>
         <version>3.3.0</version>
         <executions>
           <execution>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/classes</outputDirectory>
-              <includeArtifactIds>geoip2,javatar</includeArtifactIds>
-            </configuration>
+            <id>default-jar</id>
+            <phase>none</phase>
           </execution>
         </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.6.0</version>
         <configuration>
           <descriptorRefs>
-            <descriptorRef>geoip2</descriptorRef>
-            <descriptorRef>javatar</descriptorRef>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
+        <executions>
+          <execution>
+            <id>default-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -74,6 +77,20 @@
       <artifactId>geoip2</artifactId>
       <version>4.2.0</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- https://mvnrepository.com/artifact/javatar/javatar -->
     <dependency>
