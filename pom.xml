@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.hibi_10000.plugins</groupId>
     <artifactId>JoinPlus</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
