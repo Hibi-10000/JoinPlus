@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class JoinPlus extends JavaPlugin {
-    public List<String> noPVP = new ArrayList<>();
-    public List<String> godMode = new ArrayList<>();
     public GeoIPUtil geoutil;
     public File databasefile;
 

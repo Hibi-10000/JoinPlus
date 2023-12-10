@@ -2,12 +2,8 @@ package com.github.hibi_10000.plugins.joinplus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -17,20 +13,6 @@ public class PlayerListeners implements Listener {
 
     public PlayerListeners(JoinPlus plugin) {
         this.plugin = plugin;
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player &&
-            plugin.godMode.contains(event.getEntity().getName()))
-            event.setCancelled(true);
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Player && (
-            plugin.noPVP.contains(event.getEntity().getName()) || plugin.noPVP.contains(event.getDamager().getName())))
-            event.setCancelled(true);
     }
 
     @EventHandler
