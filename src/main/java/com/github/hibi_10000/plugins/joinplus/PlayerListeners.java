@@ -18,13 +18,13 @@ public class PlayerListeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().hasPlayedBefore() && ConfigUtil.getFirstJoinMessageEnabled()) {
             String message = ConfigUtil.getFirstJoinMessage();
-            if (message != null && !message.equalsIgnoreCase("%none%")) {
+            if (message != null) {
                 Bukkit.broadcastMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             }
         }
         if (ConfigUtil.getJoinMessageEnabled()) {
             String message = ConfigUtil.getJoinMessage();
-            if (message != null && !message.equalsIgnoreCase("%none%")) {
+            if (message != null) {
                 event.setJoinMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             } else {
                 event.setJoinMessage(null);
@@ -36,7 +36,7 @@ public class PlayerListeners implements Listener {
     public void onPlayerKick(PlayerKickEvent event) {
         if (ConfigUtil.getKickMessageEnabled()) {
             String message = ConfigUtil.getKickMessage();
-            if (message != null && !message.equalsIgnoreCase("%none%")) {
+            if (message != null) {
                 event.setLeaveMessage(ConfigUtil.replaceVariables(message, event.getPlayer(), event.getReason()));
             } else {
                 event.setLeaveMessage("");
@@ -48,7 +48,7 @@ public class PlayerListeners implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (ConfigUtil.getQuitMessageEnabled()) {
             String message = ConfigUtil.getQuitMessage();
-            if (message != null && !message.equalsIgnoreCase("%none%")) {
+            if (message != null) {
                 event.setQuitMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             } else {
                 event.setQuitMessage(null);
