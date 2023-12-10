@@ -54,9 +54,7 @@ public class PlayerListeners implements Listener {
         if (ConfigUtil.getQuitMessageEnabled()) {
             String message = ConfigUtil.getQuitMessage();
             if (message != null && !message.equalsIgnoreCase("%none%")) {
-                if (event.getQuitMessage() != null && event.getQuitMessage().equalsIgnoreCase(ChatColor.YELLOW + event.getPlayer().getName() + " left the game")) {
-                    event.setQuitMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
-                }
+                event.setQuitMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             } else {
                 event.setQuitMessage(null);
             }
