@@ -76,12 +76,12 @@ public class ConfigUtil {
         string = string.replace("%player_name%", player.getName());
         string = string.replace("%player_display_name%", player.getDisplayName());
         string = string.replace("%player_uuid%", player.getUniqueId().toString());
-        string = string.replace("%player_country%", plugin.geoutil.getCountry(Objects.requireNonNull(player.getAddress()).getAddress()));
+        string = string.replace("%player_country%", plugin.geoutil.getCountry(player.getAddress().getAddress()));
         //string = string.replace("%player_city%", plugin.geoutil.getCity(player.getAddress().getAddress()));
         string = string.replace("%total_players%", String.valueOf(plugin.getServer().getOnlinePlayers().size()));
         string = string.replace("%max_players%", String.valueOf(plugin.getServer().getMaxPlayers()));
         string = string.replace("%player_ip%", player.getAddress().getAddress().getHostAddress());
-        //string = string.replace("%new_line%", "\n");
+        string = string.replace("%player_ip_masked%", player.getAddress().getAddress().getHostAddress().replaceAll("\\d+$", "xxx"));
         string = ChatColor.translateAlternateColorCodes('&', string);
         return string;
     }
