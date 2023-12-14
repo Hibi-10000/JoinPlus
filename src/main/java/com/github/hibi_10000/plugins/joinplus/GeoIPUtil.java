@@ -66,9 +66,9 @@ public class GeoIPUtil {
                 while ((entry = tarInput.getNextEntry()) != null) {
                     String filename = entry.getName();
                     if (!entry.isDirectory()) {
-                        if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) break;
+                        if (filename.endsWith(".mmdb")) break;
                     } else {
-                        ConfigUtil.setGeoLite2LastDBUpdate(filename.replace("GeoLite2-Country_", "").replace("/", ""));
+                        ConfigUtil.setGeoLite2LastDBUpdate(filename.substring(filename.length() - 8).replace("/", ""));
                     }
                 }
                 try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
