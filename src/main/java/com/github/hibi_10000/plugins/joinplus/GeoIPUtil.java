@@ -65,28 +65,27 @@ public class GeoIPUtil {
             conn.connect();
             logger.info("GeoIPデータベースをダウンロードしています...");
             InputStream input = conn.getInputStream();
-            input = new GZIPInputStream(input);
-            final TarInputStream tarInputStream = new TarInputStream(input);
+            final GZIPInputStream gzipInput = new GZIPInputStream(input);
+            final TarInputStream tarInput = new TarInputStream(gzipInput);
             TarEntry entry;
-            while ((entry = tarInputStream.getNextEntry()) != null) {
+            while ((entry = tarInput.getNextEntry()) != null) {
                 String filename = entry.getName();
                 if (!entry.isDirectory()) {
-                    if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) {
-                        input = tarInputStream;
-                        break;
-                    }
+                    if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) break;
                 } else {
                     ConfigUtil.setGeoLite2LastDBUpdate(filename.replace("GeoLite2-Country_","").replace("/",""));
                 }
             }
             final OutputStream output = new FileOutputStream(databasefile);
             final byte[] buffer = new byte[2048];
-            int length = input.read(buffer);
+            int length = tarInput.read(buffer);
             while (length >= 0) {
                 output.write(buffer, 0, length);
-                length = input.read(buffer);
+                length = tarInput.read(buffer);
             }
             output.close();
+            tarInput.close();
+            gzipInput.close();
             input.close();
             logger.info("GeoIPデータベースのアップデートが完了しました");
         } catch (final MalformedURLException e) {
