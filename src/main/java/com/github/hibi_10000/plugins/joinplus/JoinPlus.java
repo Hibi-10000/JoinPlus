@@ -29,7 +29,7 @@ public class JoinPlus extends JavaPlugin {
         geoutil = new GeoIPUtil(this);
         if (!databasefile.exists()) {
             String conflicenseley = ConfigUtil.getGeoLite2LicenseKey();
-            if (conflicenseley != null && conflicenseley.equalsIgnoreCase("LICENSEKEY_HERE")) {
+            if (conflicenseley.isEmpty()) {
                 this.saveResource("GeoLite2-Country.mmdb", false);
                 getLogger().warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
             } else {

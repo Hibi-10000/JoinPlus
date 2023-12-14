@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 
 public class ConfigUtil {
+    private ConfigUtil() {}
+
     static JoinPlus plugin;
     static FileConfiguration config;
 
@@ -20,7 +22,7 @@ public class ConfigUtil {
     }
 
     public static String getFirstJoinMessage() {
-        return config.getString("messages.first-join-message.message");
+        return getString("messages.first-join-message.message");
     }
 
     public static boolean getJoinMessageEnabled() {
@@ -28,7 +30,7 @@ public class ConfigUtil {
     }
 
     public static String getJoinMessage() {
-        return config.getString("messages.join-message.message");
+        return getString("messages.join-message.message");
     }
 
     public static boolean getQuitMessageEnabled() {
@@ -36,7 +38,7 @@ public class ConfigUtil {
     }
 
     public static String getQuitMessage() {
-        return config.getString("messages.quit-message.message");
+        return getString("messages.quit-message.message");
     }
 
     public static boolean getKickMessageEnabled() {
@@ -44,20 +46,25 @@ public class ConfigUtil {
     }
 
     public static String getKickMessage() {
-        return config.getString("messages.kick-message.message");
+        return getString("messages.kick-message.message");
     }
 
-
     public static String getGeoLite2DownloadURL() {
-        return config.getString("GeoLite2.Download-URL");
+        return getString("GeoLite2.Download-URL");
     }
 
     public static String getGeoLite2LicenseKey() {
-        return config.getString("GeoLite2.LicenseKey");
+        return getString("GeoLite2.LicenseKey");
     }
 
     public static String getGeoLite2LastDBUpdate() {
-        return config.getString("GeoLite2.LastDBUpdate");
+        return getString("GeoLite2.LastDBUpdate");
+    }
+
+    private static String getString(String path) {
+        String str = config.getString(path);
+        if (str != null && str.isEmpty()) str = config.getDefaults().getString(path);
+        return str;
     }
 
     public static void setGeoLite2LastDBUpdate(String date) {

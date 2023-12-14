@@ -48,12 +48,9 @@ public class GeoIPUtil {
     public boolean updateDB() {
         try {
             logger.info("GeoLite2データベースのアップデートを開始します");
-            String url;
-            url = ConfigUtil.getGeoLite2DownloadURL();
-            if (url == null || url.isEmpty())
-                url = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz";
+            String url = ConfigUtil.getGeoLite2DownloadURL();
             final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
-            if (licenseKey == null || licenseKey.isEmpty() || licenseKey.equals("LICENSEKEY_HERE")) {
+            if (licenseKey == null || licenseKey.isEmpty()) {
                 logger.severe("maxmindのライセンスキーを設定してください");
                 //System.out.println("[JoinPlus]§c maxmindのライセンスキーを設定してください");
                 return false;
