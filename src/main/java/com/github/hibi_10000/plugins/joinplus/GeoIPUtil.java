@@ -5,7 +5,6 @@ import com.ice.tar.TarInputStream;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.record.Country;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -17,30 +16,26 @@ import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
 public class GeoIPUtil {
-    JoinPlus plugin;
-    Logger logger;
-    File databasefile;
+    private final JoinPlus plugin;
+    private final Logger logger;
 
     public GeoIPUtil(JoinPlus plugin) {
         this.plugin = plugin;
         logger = plugin.getLogger();
-        this.databasefile = plugin.databasefile;
     }
-
-    DatabaseReader mmreader;
 
     public String getCountry(InetAddress ipAddress) {
         if (ipAddress.isLoopbackAddress() || ipAddress.isAnyLocalAddress()) {
             return "LocalHost";
         }
         try {
-            File database = databasefile;
-            mmreader = new DatabaseReader.Builder(database).build();
-            CountryResponse response = mmreader.country(ipAddress);
-            Country country = response.getCountry();
-            return country.getName();
+            CountryResponse response;
+            try (DatabaseReader mmReader = new DatabaseReader.Builder(plugin.databasefile).build()) {
+                response = mmReader.country(ipAddress);
+            }
+            return response.getCountry().getName();
         } catch (IOException | GeoIp2Exception e) {
-            plugin.getLogger().log(Level.SEVERE, "GeoLite2データベースの読み込みに失敗しました", e);
+            logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
             return "N/A";
         }
     }
@@ -76,7 +71,7 @@ public class GeoIPUtil {
                         ConfigUtil.setGeoLite2LastDBUpdate(filename.replace("GeoLite2-Country_", "").replace("/", ""));
                     }
                 }
-                try (final OutputStream output = new FileOutputStream(databasefile)) {
+                try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
                     final byte[] buffer = new byte[2048];
                     int length = tarInput.read(buffer);
                     while (length >= 0) {
