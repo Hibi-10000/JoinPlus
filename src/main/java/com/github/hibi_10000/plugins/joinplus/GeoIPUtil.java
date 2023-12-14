@@ -59,31 +59,28 @@ public class GeoIPUtil {
                 return false;
             }
             url = url.replace("{LICENSE_KEY}", licenseKey);
-            logger.info("GeoIPデータベースをダウンロードしています...");
             final URL downloadUrl = new URL(url);
             final URLConnection conn = downloadUrl.openConnection();
             conn.setConnectTimeout(10000);
             conn.connect();
+            logger.info("GeoIPデータベースをダウンロードしています...");
             InputStream input = conn.getInputStream();
-            final OutputStream output = new FileOutputStream(databasefile);
-            final byte[] buffer = new byte[2048];
             input = new GZIPInputStream(input);
-            // The new GeoIP2 uses tar.gz to pack the db file along with some other txt. So it makes things a bit complicated here.
-            String filename;
             final TarInputStream tarInputStream = new TarInputStream(input);
             TarEntry entry;
             while ((entry = tarInputStream.getNextEntry()) != null) {
+                String filename = entry.getName();
                 if (!entry.isDirectory()) {
-                    filename = entry.getName();
                     if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) {
                         input = tarInputStream;
-                        logger.info("GeoIPデータベースのアップデートが完了しました");
                         break;
                     }
                 } else {
-                    ConfigUtil.setGeoLite2LastDBUpdate(entry.getName().replace("GeoLite2-Country_","").replace("/",""));
+                    ConfigUtil.setGeoLite2LastDBUpdate(filename.replace("GeoLite2-Country_","").replace("/",""));
                 }
             }
+            final OutputStream output = new FileOutputStream(databasefile);
+            final byte[] buffer = new byte[2048];
             int length = input.read(buffer);
             while (length >= 0) {
                 output.write(buffer, 0, length);
@@ -91,6 +88,7 @@ public class GeoIPUtil {
             }
             output.close();
             input.close();
+            logger.info("GeoIPデータベースのアップデートが完了しました");
         } catch (final MalformedURLException e) {
             logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
             return false;
