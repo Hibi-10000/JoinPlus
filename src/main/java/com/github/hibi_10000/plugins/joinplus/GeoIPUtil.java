@@ -47,21 +47,19 @@ public class GeoIPUtil {
 
     public boolean updateDB() {
         try {
-            logger.info("GeoLite2データベースのアップデートを開始します");
+            logger.info("GeoIPデータベースのアップデートを開始します");
             String url = ConfigUtil.getGeoLite2DownloadURL();
             if (!url.contains("tar.gz")) {
-                logger.severe("GeoLite2のダウンロードURLが間違っています");
+                logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
                 return false;
             }
             final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
             if (licenseKey == null || licenseKey.isEmpty()) {
                 logger.severe("maxmindのライセンスキーを設定してください");
-                //System.out.println("[JoinPlus]§c maxmindのライセンスキーを設定してください");
                 return false;
             }
             url = url.replace("{LICENSE_KEY}", licenseKey);
-            logger.info("GeoLite2データベースをダウンロードしています...");
-            //System.out.println("§a[JoinPlus] GeoIPデータベースをダウンロードしています...");
+            logger.info("GeoIPデータベースをダウンロードしています...");
             final URL downloadUrl = new URL(url);
             final URLConnection conn = downloadUrl.openConnection();
             conn.setConnectTimeout(10000);
@@ -79,7 +77,7 @@ public class GeoIPUtil {
                     filename = entry.getName();
                     if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) {
                         input = tarInputStream;
-                        logger.info("GeoLite2データベースのアップデートが完了しました");
+                        logger.info("GeoIPデータベースのアップデートが完了しました");
                         break;
                     }
                 } else {
@@ -93,11 +91,11 @@ public class GeoIPUtil {
             }
             output.close();
             input.close();
-        } catch (final MalformedURLException ex) {
-            logger.log(Level.SEVERE, "ConfigのGeoLite2のダウンロードURLが間違っています:", ex);
+        } catch (final MalformedURLException e) {
+            logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
             return false;
-        } catch (final IOException ex) {
-            logger.log(Level.SEVERE, "GeoLite2のダウンロードサーバーに接続できませんでした:", ex);
+        } catch (final IOException e) {
+            logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードサーバーに接続できませんでした:", e);
             return false;
         }
         return true;
