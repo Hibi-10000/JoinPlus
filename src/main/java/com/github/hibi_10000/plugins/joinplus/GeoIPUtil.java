@@ -64,29 +64,29 @@ public class GeoIPUtil {
             conn.setConnectTimeout(10000);
             conn.connect();
             logger.info("GeoIPデータベースをダウンロードしています...");
-            InputStream input = conn.getInputStream();
-            final GZIPInputStream gzipInput = new GZIPInputStream(input);
-            final TarInputStream tarInput = new TarInputStream(gzipInput);
-            TarEntry entry;
-            while ((entry = tarInput.getNextEntry()) != null) {
-                String filename = entry.getName();
-                if (!entry.isDirectory()) {
-                    if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) break;
-                } else {
-                    ConfigUtil.setGeoLite2LastDBUpdate(filename.replace("GeoLite2-Country_","").replace("/",""));
+            try (final InputStream input = conn.getInputStream()) {
+                try (final GZIPInputStream gzipInput = new GZIPInputStream(input)) {
+                    try (final TarInputStream tarInput = new TarInputStream(gzipInput)) {
+                        TarEntry entry;
+                        while ((entry = tarInput.getNextEntry()) != null) {
+                            String filename = entry.getName();
+                            if (!entry.isDirectory()) {
+                                if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) break;
+                            } else {
+                                ConfigUtil.setGeoLite2LastDBUpdate(filename.replace("GeoLite2-Country_", "").replace("/", ""));
+                            }
+                        }
+                        try (final OutputStream output = new FileOutputStream(databasefile)) {
+                            final byte[] buffer = new byte[2048];
+                            int length = tarInput.read(buffer);
+                            while (length >= 0) {
+                                output.write(buffer, 0, length);
+                                length = tarInput.read(buffer);
+                            }
+                        }
+                    }
                 }
             }
-            final OutputStream output = new FileOutputStream(databasefile);
-            final byte[] buffer = new byte[2048];
-            int length = tarInput.read(buffer);
-            while (length >= 0) {
-                output.write(buffer, 0, length);
-                length = tarInput.read(buffer);
-            }
-            output.close();
-            tarInput.close();
-            gzipInput.close();
-            input.close();
             logger.info("GeoIPデータベースのアップデートが完了しました");
         } catch (final MalformedURLException e) {
             logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
