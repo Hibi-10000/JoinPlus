@@ -49,6 +49,10 @@ public class GeoIPUtil {
         try {
             logger.info("GeoLite2データベースのアップデートを開始します");
             String url = ConfigUtil.getGeoLite2DownloadURL();
+            if (!url.contains("tar.gz")) {
+                logger.severe("GeoLite2のダウンロードURLが間違っています");
+                return false;
+            }
             final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
             if (licenseKey == null || licenseKey.isEmpty()) {
                 logger.severe("maxmindのライセンスキーを設定してください");
@@ -65,25 +69,21 @@ public class GeoIPUtil {
             InputStream input = conn.getInputStream();
             final OutputStream output = new FileOutputStream(databasefile);
             final byte[] buffer = new byte[2048];
-            if (url.contains("gz")) {
-                input = new GZIPInputStream(input);
-                if (url.contains("tar.gz")) {
-                    // The new GeoIP2 uses tar.gz to pack the db file along with some other txt. So it makes things a bit complicated here.
-                    String filename;
-                    final TarInputStream tarInputStream = new TarInputStream(input);
-                    TarEntry entry;
-                    while ((entry = tarInputStream.getNextEntry()) != null) {
-                        if (!entry.isDirectory()) {
-                            filename = entry.getName();
-                            if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) {
-                                input = tarInputStream;
-                                logger.info("GeoLite2データベースのアップデートが完了しました");
-                                break;
-                            }
-                        } else {
-                            ConfigUtil.setGeoLite2LastDBUpdate(entry.getName().replace("GeoLite2-Country_","").replace("/",""));
-                        }
+            input = new GZIPInputStream(input);
+            // The new GeoIP2 uses tar.gz to pack the db file along with some other txt. So it makes things a bit complicated here.
+            String filename;
+            final TarInputStream tarInputStream = new TarInputStream(input);
+            TarEntry entry;
+            while ((entry = tarInputStream.getNextEntry()) != null) {
+                if (!entry.isDirectory()) {
+                    filename = entry.getName();
+                    if (filename.substring(filename.length() - 5).equalsIgnoreCase(".mmdb")) {
+                        input = tarInputStream;
+                        logger.info("GeoLite2データベースのアップデートが完了しました");
+                        break;
                     }
+                } else {
+                    ConfigUtil.setGeoLite2LastDBUpdate(entry.getName().replace("GeoLite2-Country_","").replace("/",""));
                 }
             }
             int length = input.read(buffer);
