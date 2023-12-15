@@ -30,8 +30,15 @@ public class JoinPlus extends JavaPlugin {
         if (!databasefile.exists()) {
             String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
             if (licenseKey.isEmpty()) {
-                this.saveResource("GeoLite2-Country.mmdb", false);
-                getLogger().warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
+                if (this.getResource("GeoLite2-Country.mmdb") != null) {
+                    this.saveResource("GeoLite2-Country.mmdb", false);
+                    getLogger().warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
+                } else {
+                    getLogger().severe("maxmindのライセンスキーが設定されていなかったため、GeoIPを使用できません！");
+                    getLogger().severe("ライセンスキーを設定するか、GeoIPデータベースを手動で配置してください！");
+                    getServer().getPluginManager().disablePlugin(this);
+                    return;
+                }
             } else {
                 geoutil.updateDB();
             }
