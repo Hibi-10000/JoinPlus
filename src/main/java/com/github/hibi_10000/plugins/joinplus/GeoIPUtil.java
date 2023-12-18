@@ -43,17 +43,16 @@ public class GeoIPUtil {
     public boolean updateDB() {
         try {
             logger.info("GeoIPデータベースのアップデートを開始します");
-            String url = ConfigUtil.getGeoLite2DownloadURL();
+            final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
+            if (licenseKey == null || licenseKey.isEmpty()) {
+                logger.severe("maxmindのライセンスキーが設定されていません");
+                return false;
+            }
+            final String url = ConfigUtil.getGeoLite2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
             if (!url.contains("tar.gz")) {
                 logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
                 return false;
             }
-            final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
-            if (licenseKey == null || licenseKey.isEmpty()) {
-                logger.severe("maxmindのライセンスキーを設定してください");
-                return false;
-            }
-            url = url.replace("{LICENSE_KEY}", licenseKey);
             final URL downloadUrl = new URL(url);
             final URLConnection conn = downloadUrl.openConnection();
             conn.setConnectTimeout(10000);
