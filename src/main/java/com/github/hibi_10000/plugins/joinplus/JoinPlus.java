@@ -1,8 +1,6 @@
 package com.github.hibi_10000.plugins.joinplus;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +21,6 @@ public class JoinPlus extends JavaPlugin {
 
         ConfigUtil.setPluginInstance(this);
 
-        saveDefaultConfig();
-
         databasefile = new File(this.getDataFolder(), "GeoLite2-Country.mmdb");
         geoutil = new GeoIPUtil(this);
         if (!databasefile.exists()) {
@@ -44,23 +40,13 @@ public class JoinPlus extends JavaPlugin {
             }
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        long lastUpdated;
-        try {
-            lastUpdated = sdf.parse(ConfigUtil.getGeoLite2LastDBUpdate()).getTime();
-        } catch (ParseException e) {
-            lastUpdated = new Date(0).getTime();
-        }
+        final Date dbDate = geoutil.getDBBuildDate();
+        if (dbDate == null) return;
 
-        final long diff = new Date().getTime() - lastUpdated;
+        final long diff = new Date().getTime() - dbDate.getTime();
         if ((diff / 1000 / 3600) > 24) {
             geoutil.updateDB();
         }
-    }
-
-    @Override
-    public void onDisable() {
-        saveConfig();
     }
 
     @Override
@@ -82,7 +68,6 @@ public class JoinPlus extends JavaPlugin {
         }
         if (args[0].equalsIgnoreCase("reload")) {
             if (cs.hasPermission("joinplus.reload")) {
-                saveConfig();
                 reloadConfig();
                 ConfigUtil.setPluginInstance(this);
                 cs.sendMessage(formatCommandResponse("Configuration reloaded."));

@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -40,6 +41,15 @@ public class GeoIPUtil {
         }
     }
 
+    public Date getDBBuildDate() {
+        try (DatabaseReader mmReader = new DatabaseReader.Builder(plugin.databasefile).build()) {
+            return mmReader.getMetadata().getBuildDate();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
+            return null;
+        }
+    }
+
     public boolean updateDB() {
         try {
             logger.info("GeoIPデータベースのアップデートを開始します");
@@ -63,12 +73,7 @@ public class GeoIPUtil {
                  final TarInputStream tarInput = new TarInputStream(gzipInput)) {
                 TarEntry entry;
                 while ((entry = tarInput.getNextEntry()) != null) {
-                    String filename = entry.getName();
-                    if (!entry.isDirectory()) {
-                        if (filename.endsWith(".mmdb")) break;
-                    } else {
-                        ConfigUtil.setGeoLite2LastDBUpdate(filename.substring(filename.length() - 8).replace("/", ""));
-                    }
+                    if (!entry.isDirectory() && entry.getName().endsWith(".mmdb")) break;
                 }
                 try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
                     final byte[] buffer = new byte[2048];

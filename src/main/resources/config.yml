@@ -14,4 +14,3 @@ messages:
 GeoLite2:
   Download-URL: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
   LicenseKey: ''
-  LastDBUpdate: ''

@@ -57,19 +57,10 @@ public class ConfigUtil {
         return getString("GeoLite2.LicenseKey");
     }
 
-    public static String getGeoLite2LastDBUpdate() {
-        return getString("GeoLite2.LastDBUpdate");
-    }
-
     private static String getString(String path) {
         String str = config.getString(path);
         if (str != null && str.isEmpty()) str = config.getDefaults().getString(path);
         return str;
-    }
-
-    public static void setGeoLite2LastDBUpdate(String date) {
-        config.set("GeoLite2.LastDBUpdate", date);
-        plugin.saveConfig();
     }
 
     public static String replaceVariables(String string, Player player) {
