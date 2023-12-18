@@ -42,6 +42,8 @@ Bukkit Plugin for Bukkit 1.17.1~
 | %max_players%         | サーバー設定のmax-playersの値       |
 | %reason%              | (Kick時のみ)キックされた理由          |
 
+また、§または&を使用することでカラーコードを使用できます
+
 ### GeoLite2
 #### Download-URL
 GeoLite2データベースをダウンロードする時に使用するURLです  
