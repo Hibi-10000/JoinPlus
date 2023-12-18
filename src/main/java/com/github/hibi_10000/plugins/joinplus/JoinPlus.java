@@ -49,11 +49,11 @@ public class JoinPlus extends JavaPlugin {
         try {
             lastUpdated = sdf.parse(ConfigUtil.getGeoLite2LastDBUpdate()).getTime();
         } catch (ParseException e) {
-            lastUpdated = new Date(1650326400).getTime();
+            lastUpdated = new Date(0).getTime();
         }
 
         final long diff = new Date().getTime() - lastUpdated;
-        if ((diff / 1000 / 3600 / 24) > 7) {
+        if ((diff / 1000 / 3600) > 24) {
             geoutil.updateDB();
         }
     }
@@ -64,7 +64,7 @@ public class JoinPlus extends JavaPlugin {
     }
 
     @Override
-    public boolean onCommand(CommandSender cs, Command cmnd, String alias, String[] args) {
+    public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
         if (args.length == 0) {
             cs.sendMessage(ChatColor.YELLOW + "[JoinPlus] " + ChatColor.GRAY + "Version " + ChatColor.AQUA + getDescription().getVersion() + ChatColor.GRAY + " by " + getDescription().getAuthors().get(0) + ".");
             return true;
