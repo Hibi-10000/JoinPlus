@@ -51,7 +51,7 @@ public class JoinPlus extends JavaPlugin {
         }
         if (args.length != 1) {
             cs.sendMessage(formatCommandResponse("Usage: /joinplus reload"));
-            return true;
+            return false;
         }
         if (args[0].equalsIgnoreCase("help")) {
             cs.sendMessage(formatCommandResponse("Available Commands:"));
@@ -61,34 +61,30 @@ public class JoinPlus extends JavaPlugin {
             return true;
         }
         if (args[0].equalsIgnoreCase("reload")) {
-            if (cs.hasPermission("joinplus.reload")) {
-                reloadConfig();
-                ConfigUtil.setPluginInstance(this);
-                cs.sendMessage(formatCommandResponse("Configuration reloaded."));
-            } else {
-                cs.sendMessage(getNoPermissionMessage());
-            }
+            if (!checkPermission(cs, "joinplus.reload")) return false;
+            reloadConfig();
+            ConfigUtil.setPluginInstance(this);
+            cs.sendMessage(formatCommandResponse("Configuration reloaded."));
             return true;
         }
         if (args[0].equalsIgnoreCase("geoupdate")) {
-            if (cs.hasPermission("joinplus.geoupdate")) {
-                if (cs instanceof Player) {
-                    cs.sendMessage("§a[JoinPlus] GeoLite2データベースのアップデートを開始しました");
-                }
-                getLogger().info(cs.getName() + " がGeoLite2データベースのアップデートを開始しました");
-                if (!geoutil.updateDB()) {
-                    cs.sendMessage("§c[JoinPlus] GeoLite2データベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
-                    return false;
-                }
+            if (!checkPermission(cs, "joinplus.geoupdate")) return false;
+            if (cs instanceof Player) {
+                cs.sendMessage("§a[JoinPlus] GeoLite2データベースのアップデートを開始しました");
+            }
+            getLogger().info(cs.getName() + " がGeoLite2データベースのアップデートを開始しました");
+            if (!geoutil.updateDB()) {
+                cs.sendMessage("§c[JoinPlus] GeoLite2データベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
+                return false;
             }
             return true;
         }
         if (!(cs instanceof Player)) {
             cs.sendMessage(formatCommandResponse("You must be a player to do that."));
-            return true;
+            return false;
         }
         cs.sendMessage(formatCommandResponse("Unknown command. Type " + ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + " for help."));
-        return true;
+        return false;
     }
 
     @Override
@@ -111,5 +107,11 @@ public class JoinPlus extends JavaPlugin {
 
     public static String getNoPermissionMessage() {
         return formatCommandResponse("§cYou don't have permission to do that.");
+    }
+
+    public static boolean checkPermission(CommandSender sender, String permission) {
+        if (sender.hasPermission(permission)) return true;
+        sender.sendMessage(getNoPermissionMessage());
+        return false;
     }
 }
