@@ -67,10 +67,10 @@ public class JoinPlus extends JavaPlugin {
                 }
                 case "geoupdate" -> {
                     if (!checkPermission(cs, "joinplus.command.geoupdate")) return false;
-                    cs.sendMessage("§a[JoinPlus] GeoLite2データベースのアップデートを開始しました");
-                    if (cs instanceof Player) getLogger().info(cs.getName() + " がGeoLite2データベースのアップデートを開始しました");
+                    cs.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
+                    if (cs instanceof Player) getLogger().info(cs.getName() + " がGeoIPデータベースのアップデートを開始しました");
                     if (!geoutil.updateDB()) {
-                        cs.sendMessage("§c[JoinPlus] GeoLite2データベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
+                        cs.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
                         return false;
                     }
                     return true;
