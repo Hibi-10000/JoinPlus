@@ -54,28 +54,30 @@ public class JoinPlus extends JavaPlugin {
             cs.sendMessage(formatCommandResponse("Usage: /joinplus reload"));
             return false;
         }
-        if (args[0].equalsIgnoreCase("help")) {
-            cs.sendMessage(formatCommandResponse("Available Commands:"));
-            cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + ": This general plugin information."));
-            cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus reload" + ChatColor.GRAY + ": Reloads the configuration."));
-            cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus geoupdate" + ChatColor.GRAY + ": Updates the database."));
-            return true;
-        }
-        if (args[0].equalsIgnoreCase("reload")) {
-            if (!checkPermission(cs, "joinplus.command.reload")) return false;
-            ConfigUtil.reloadConfig();
-            cs.sendMessage(formatCommandResponse("Configuration reloaded."));
-            return true;
-        }
-        if (args[0].equalsIgnoreCase("geoupdate")) {
-            if (!checkPermission(cs, "joinplus.command.geoupdate")) return false;
-            cs.sendMessage("§a[JoinPlus] GeoLite2データベースのアップデートを開始しました");
-            if (cs instanceof Player) getLogger().info(cs.getName() + " がGeoLite2データベースのアップデートを開始しました");
-            if (!geoutil.updateDB()) {
-                cs.sendMessage("§c[JoinPlus] GeoLite2データベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
-                return false;
+        switch (args[0].toLowerCase()) {
+            case "help" -> {
+                cs.sendMessage(formatCommandResponse("Available Commands:"));
+                cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + ": This general plugin information."));
+                cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus reload" + ChatColor.GRAY + ": Reloads the configuration."));
+                cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus geoupdate" + ChatColor.GRAY + ": Updates the database."));
+                return true;
             }
-            return true;
+            case "reload" -> {
+                if (!checkPermission(cs, "joinplus.command.reload")) return false;
+                ConfigUtil.reloadConfig();
+                cs.sendMessage(formatCommandResponse("Configuration reloaded."));
+                return true;
+            }
+            case "geoupdate" -> {
+                if (!checkPermission(cs, "joinplus.command.geoupdate")) return false;
+                cs.sendMessage("§a[JoinPlus] GeoLite2データベースのアップデートを開始しました");
+                if (cs instanceof Player) getLogger().info(cs.getName() + " がGeoLite2データベースのアップデートを開始しました");
+                if (!geoutil.updateDB()) {
+                    cs.sendMessage("§c[JoinPlus] GeoLite2データベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
+                    return false;
+                }
+                return true;
+            }
         }
         if (!(cs instanceof Player)) {
             cs.sendMessage(formatCommandResponse("You must be a player to do that."));
