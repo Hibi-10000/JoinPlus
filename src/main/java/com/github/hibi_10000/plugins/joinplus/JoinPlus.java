@@ -45,6 +45,7 @@ public class JoinPlus extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
+        if (!checkPermission(cs, "joinplus.command")) return false;
         if (args.length == 0) {
             cs.sendMessage(ChatColor.YELLOW + "[JoinPlus] " + ChatColor.GRAY + "Version " + ChatColor.AQUA + getDescription().getVersion() + ChatColor.GRAY + " by " + getDescription().getAuthors().get(0) + ".");
             return true;
@@ -61,14 +62,14 @@ public class JoinPlus extends JavaPlugin {
             return true;
         }
         if (args[0].equalsIgnoreCase("reload")) {
-            if (!checkPermission(cs, "joinplus.reload")) return false;
+            if (!checkPermission(cs, "joinplus.command.reload")) return false;
             reloadConfig();
             ConfigUtil.setPluginInstance(this);
             cs.sendMessage(formatCommandResponse("Configuration reloaded."));
             return true;
         }
         if (args[0].equalsIgnoreCase("geoupdate")) {
-            if (!checkPermission(cs, "joinplus.geoupdate")) return false;
+            if (!checkPermission(cs, "joinplus.command.geoupdate")) return false;
             if (cs instanceof Player) {
                 cs.sendMessage("§a[JoinPlus] GeoLite2データベースのアップデートを開始しました");
             }
@@ -89,6 +90,7 @@ public class JoinPlus extends JavaPlugin {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (!sender.hasPermission("joinplus.command")) return null;
         if (command.getName().equalsIgnoreCase("joinplus")) {
             if (args.length == 1) {
                 List<String> list = new ArrayList<>();
