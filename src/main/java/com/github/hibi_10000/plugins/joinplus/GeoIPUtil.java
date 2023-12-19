@@ -20,22 +20,22 @@ public class GeoIPUtil {
     private final JoinPlus plugin;
     private final Logger logger;
 
-    public GeoIPUtil(JoinPlus plugin) {
-        this.plugin = plugin;
-        logger = plugin.getLogger();
+    public GeoIPUtil(JoinPlus instance) {
+        this.plugin = instance;
+        this.logger = instance.getLogger();
     }
 
-    public String getCountry(InetAddress ipAddress) {
+    public String getCountry(final InetAddress ipAddress) {
         if (ipAddress.isLoopbackAddress() || ipAddress.isAnyLocalAddress()) {
             return "LocalHost";
         }
         try {
-            CountryResponse response;
+            final CountryResponse response;
             try (DatabaseReader mmReader = new DatabaseReader.Builder(plugin.databasefile).build()) {
                 response = mmReader.country(ipAddress);
             }
             return response.getCountry().getName();
-        } catch (IOException | GeoIp2Exception e) {
+        } catch (final IOException | GeoIp2Exception e) {
             logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
             return "N/A";
         }
@@ -44,7 +44,7 @@ public class GeoIPUtil {
     public Date getDBBuildDate() {
         try (DatabaseReader mmReader = new DatabaseReader.Builder(plugin.databasefile).build()) {
             return mmReader.getMetadata().getBuildDate();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
             return null;
         }

@@ -18,14 +18,12 @@ public class JoinPlus extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
-
         ConfigUtil.setPluginInstance(this);
 
         databasefile = new File(this.getDataFolder(), "GeoLite2-Country.mmdb");
         geoutil = new GeoIPUtil(this);
         if (!databasefile.exists()) {
-            String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
-            if (licenseKey.isEmpty()) {
+            if (ConfigUtil.getGeoLite2LicenseKey().isEmpty()) {
                 if (this.getResource("GeoLite2-Country.mmdb") != null) {
                     this.saveResource("GeoLite2-Country.mmdb", false);
                     getLogger().warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
@@ -39,14 +37,10 @@ public class JoinPlus extends JavaPlugin {
                 geoutil.updateDB();
             }
         }
-
         final Date dbDate = geoutil.getDBBuildDate();
         if (dbDate == null) return;
-
         final long diff = new Date().getTime() - dbDate.getTime();
-        if ((diff / 1000 / 3600) > 24) {
-            geoutil.updateDB();
-        }
+        if ((diff / 1000 / 3600) > 24) geoutil.updateDB();
     }
 
     @Override

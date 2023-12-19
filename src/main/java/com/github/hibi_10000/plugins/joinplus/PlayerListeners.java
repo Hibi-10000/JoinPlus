@@ -8,22 +8,22 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListeners implements Listener {
-    JoinPlus plugin;
+    final JoinPlus plugin;
 
-    public PlayerListeners(JoinPlus plugin) {
-        this.plugin = plugin;
+    public PlayerListeners(JoinPlus instance) {
+        this.plugin = instance;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().hasPlayedBefore() && ConfigUtil.getFirstJoinMessageEnabled()) {
-            String message = ConfigUtil.getFirstJoinMessage();
+            final String message = ConfigUtil.getFirstJoinMessage();
             if (message != null) {
                 Bukkit.broadcastMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             }
         }
         if (ConfigUtil.getJoinMessageEnabled()) {
-            String message = ConfigUtil.getJoinMessage();
+            final String message = ConfigUtil.getJoinMessage();
             if (message != null) {
                 event.setJoinMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             } else {
@@ -35,7 +35,7 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
         if (ConfigUtil.getKickMessageEnabled()) {
-            String message = ConfigUtil.getKickMessage();
+            final String message = ConfigUtil.getKickMessage();
             if (message != null) {
                 event.setLeaveMessage(ConfigUtil.replaceVariables(message, event.getPlayer(), event.getReason()));
             } else {
@@ -47,7 +47,7 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (ConfigUtil.getQuitMessageEnabled()) {
-            String message = ConfigUtil.getQuitMessage();
+            final String message = ConfigUtil.getQuitMessage();
             if (message != null) {
                 event.setQuitMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
             } else {

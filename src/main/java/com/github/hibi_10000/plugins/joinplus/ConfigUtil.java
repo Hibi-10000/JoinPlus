@@ -57,7 +57,7 @@ public class ConfigUtil {
         return getString("GeoLite2.LicenseKey");
     }
 
-    private static String getString(String path) {
+    private static String getString(final String path) {
         String str = config.getString(path);
         if (str != null && str.isEmpty()) str = config.getDefaults().getString(path);
         return str;
