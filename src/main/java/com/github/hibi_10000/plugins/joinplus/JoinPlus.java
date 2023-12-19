@@ -63,8 +63,7 @@ public class JoinPlus extends JavaPlugin {
         }
         if (args[0].equalsIgnoreCase("reload")) {
             if (!checkPermission(cs, "joinplus.command.reload")) return false;
-            reloadConfig();
-            ConfigUtil.setPluginInstance(this);
+            ConfigUtil.reloadConfig();
             cs.sendMessage(formatCommandResponse("Configuration reloaded."));
             return true;
         }

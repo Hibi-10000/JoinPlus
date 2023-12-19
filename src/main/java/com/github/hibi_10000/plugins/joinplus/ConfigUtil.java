@@ -17,6 +17,11 @@ public class ConfigUtil {
         config = instance.getConfig();
     }
 
+    static void reloadConfig() {
+        plugin.reloadConfig();
+        config = plugin.getConfig();
+    }
+
     public static boolean getFirstJoinMessageEnabled() {
         return config.getBoolean("messages.first-join-message.enabled");
     }
