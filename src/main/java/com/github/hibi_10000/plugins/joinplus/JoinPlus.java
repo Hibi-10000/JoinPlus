@@ -45,7 +45,6 @@ public class JoinPlus extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
-        if (!checkPermission(cs, "joinplus.command")) return false;
         if (args.length == 0) {
             cs.sendMessage(formatCommandResponse("Version " + ChatColor.AQUA + getDescription().getVersion() + ChatColor.GRAY + " by " + getDescription().getAuthors().get(0) + "."));
             return true;
@@ -77,17 +76,12 @@ public class JoinPlus extends JavaPlugin {
                 }
             }
         }
-        if (!(cs instanceof Player)) {
-            cs.sendMessage(formatCommandResponse("You must be a player to do that."));
-            return false;
-        }
         cs.sendMessage(formatCommandResponse("Unknown command. Type " + ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + " for help."));
         return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!sender.hasPermission("joinplus.command")) return null;
         if (command.getName().equalsIgnoreCase("joinplus")) {
             if (args.length == 1) {
                 List<String> list = new ArrayList<>();
