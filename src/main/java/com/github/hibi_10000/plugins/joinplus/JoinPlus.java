@@ -2,6 +2,7 @@ package com.github.hibi_10000.plugins.joinplus;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,50 +45,50 @@ public class JoinPlus extends JavaPlugin {
     }
 
     @Override
-    public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+        if (command.getName().equalsIgnoreCase("joinplus")) return false;
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "help" -> {
-                    cs.sendMessage(formatCommandResponse("Available Commands:"));
-                    cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + ": This general plugin information."));
-                    cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus reload" + ChatColor.GRAY + ": Reloads the configuration."));
-                    cs.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus geoupdate" + ChatColor.GRAY + ": Updates the database."));
+                    sender.sendMessage(formatCommandResponse("Available Commands:"));
+                    sender.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + ": This general plugin information."));
+                    sender.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus reload" + ChatColor.GRAY + ": Reloads the configuration."));
+                    sender.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus geoupdate" + ChatColor.GRAY + ": Updates the database."));
                     return true;
                 }
                 case "reload" -> {
-                    if (!checkPermission(cs, "joinplus.command.reload")) return false;
+                    if (!checkPermission(sender, "joinplus.command.reload")) return false;
                     ConfigUtil.reloadConfig();
-                    cs.sendMessage(formatCommandResponse("Configuration reloaded."));
+                    sender.sendMessage(formatCommandResponse("Configuration reloaded."));
                     return true;
                 }
                 case "geoupdate" -> {
-                    if (!checkPermission(cs, "joinplus.command.geoupdate")) return false;
-                    cs.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
-                    if (cs instanceof Player) getLogger().info(cs.getName() + " がGeoIPデータベースのアップデートを開始しました");
+                    if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
+                    sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
+                    if (sender instanceof Player) getLogger().info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
                     if (!geoutil.updateDB()) {
-                        cs.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
+                        sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
                         return false;
                     }
                     return true;
                 }
             }
         }
-        cs.sendMessage(formatCommandResponse("Unknown command. Type " + ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + " for help."));
+        sender.sendMessage(formatCommandResponse("Unknown command. Type " + ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + " for help."));
         return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (command.getName().equalsIgnoreCase("joinplus")) {
-            if (args.length == 1) {
-                List<String> list = new ArrayList<>();
-                list.add("help");
-                list.add("reload");
-                list.add("geoupdate");
-                return list;
-            }
+        if (command.getName().equalsIgnoreCase("joinplus")) return Collections.emptyList();
+        if (args.length == 1) {
+            List<String> list = new ArrayList<>();
+            list.add("help");
+            list.add("reload");
+            list.add("geoupdate");
+            return list;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public static String formatCommandResponse(String string) {
