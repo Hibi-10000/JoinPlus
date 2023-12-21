@@ -45,10 +45,6 @@ public class JoinPlus extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
-        if (args.length == 0) {
-            cs.sendMessage(formatCommandResponse("Version " + ChatColor.AQUA + getDescription().getVersion() + ChatColor.GRAY + " by " + getDescription().getAuthors().get(0) + "."));
-            return true;
-        }
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "help" -> {
