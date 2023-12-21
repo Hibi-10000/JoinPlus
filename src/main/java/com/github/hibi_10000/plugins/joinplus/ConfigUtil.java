@@ -69,6 +69,7 @@ public class ConfigUtil {
     }
 
     public static String replaceVariables(String string, Player player) {
+        string = ChatColor.translateAlternateColorCodes('&', string);
         string = string.replace("%player_name%", player.getName());
         string = string.replace("%player_display_name%", player.getDisplayName());
         string = string.replace("%player_uuid%", player.getUniqueId().toString());
@@ -78,7 +79,6 @@ public class ConfigUtil {
         string = string.replace("%max_players%", String.valueOf(plugin.getServer().getMaxPlayers()));
         string = string.replace("%player_ip%", player.getAddress().getAddress().getHostAddress());
         string = string.replace("%player_ip_masked%", player.getAddress().getAddress().getHostAddress().replaceAll("\\d+$", "xxx"));
-        string = ChatColor.translateAlternateColorCodes('&', string);
         return string;
     }
 
