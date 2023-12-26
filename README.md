@@ -57,10 +57,6 @@ GeoLite2データベースをダウンロードする時に使用するライセ
 [EssentialsXGeoIP Wiki](https://essentialsx.net/wiki/GeoIP.html)
 に詳しく解説されています
 
-#### LastDBUpdate
-GeoLite2データベースの最終更新日です **変更しないでください**  
-※GeoLite2データベースはデータベース更新日のサーバー起動時に自動でアップデートされます
-
 ## Commands
 
 ※コマンドを実行するには joinplus.command パーミッションが必要です
