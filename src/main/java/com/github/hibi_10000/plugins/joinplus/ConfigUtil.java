@@ -5,6 +5,9 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+
 public class ConfigUtil {
     private ConfigUtil() {}
 
@@ -73,12 +76,23 @@ public class ConfigUtil {
         string = string.replace("%player_name%", player.getName());
         string = string.replace("%player_display_name%", player.getDisplayName());
         string = string.replace("%player_uuid%", player.getUniqueId().toString());
-        string = string.replace("%player_country%", plugin.geoutil.getCountry(player.getAddress().getAddress()));
-        //string = string.replace("%player_city%", plugin.geoutil.getCity(player.getAddress().getAddress()));
         string = string.replace("%total_players%", String.valueOf(plugin.getServer().getOnlinePlayers().size()));
         string = string.replace("%max_players%", String.valueOf(plugin.getServer().getMaxPlayers()));
-        string = string.replace("%player_ip%", player.getAddress().getAddress().getHostAddress());
-        string = string.replace("%player_ip_masked%", player.getAddress().getAddress().getHostAddress().replaceAll("\\d+$", "xxx"));
+        InetSocketAddress socketAddress = player.getAddress();
+        if (socketAddress != null) {
+            InetAddress address = player.getAddress().getAddress();
+            string = string.replace("%player_country%", plugin.geoutil.getCountry(address));
+            //string = string.replace("%player_city%", plugin.geoutil.getCity(address));
+            String hostAddress = address.getHostAddress();
+            string = string.replace("%player_ip%", hostAddress);
+            string = string.replace("%player_ip_masked%", hostAddress.replaceAll("\\d+$", "xxx"));
+        } else {
+            plugin.getLogger().severe("プレイヤーのIPアドレスを取得できませんでした");
+            string = string.replace("%player_country%", "N/A");
+            //string = string.replace("%player_city%", "N/A");
+            string = string.replace("%player_ip%", "N/A");
+            string = string.replace("%player_ip_masked%", "N/A");
+        }
         return string;
     }
 
