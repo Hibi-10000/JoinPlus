@@ -15,7 +15,7 @@ Bukkit Plugin for Bukkit 1.17.1~
 プレイヤーがサーバーにログインした時に表示されます  
 `enabled`を`false`にすると表示されなくなります  
 `messages`のデフォルト :   
-`&a--> &e%player_display_name%&a connected from &b%player_country% &r(&b%player_ip%&r)&a.`  
+`&a--> &e%player_display_name%&a connected from &b%player_country% &r(&b%player_ip_masked%&r)&a.`  
 
 #### Quit
 プレイヤーがサーバーからログアウトした時に表示されます  
@@ -25,7 +25,7 @@ Bukkit Plugin for Bukkit 1.17.1~
 #### Kick
 プレイヤーがサーバーからキックされたときに表示されます  
 `enabled`を`false`にすると表示されなくなります  
-`messages`のデフォルト : `&c<-- &e%player_display_name%&c was kicked%reason%.`
+`messages`のデフォルト : `&c<-- &e%player_display_name%&c was kicked (Reason: %reason%).`
 
 #### Placeholder
 `messages`に使用できるプレースホルダーの一覧です
