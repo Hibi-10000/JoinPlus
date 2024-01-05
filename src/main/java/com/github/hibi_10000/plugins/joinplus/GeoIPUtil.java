@@ -51,40 +51,23 @@ public class GeoIPUtil {
     }
 
     public boolean updateDB() {
+        logger.info("GeoIPデータベースのアップデートを開始します");
+        final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
+        if (licenseKey == null || licenseKey.isEmpty()) {
+            logger.severe("maxmindのライセンスキーが設定されていません");
+            return false;
+        }
+        final String url = ConfigUtil.getGeoLite2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
+        if (!url.contains("tar.gz")) {
+            logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
+            return false;
+        }
+        final URLConnection conn;
         try {
-            logger.info("GeoIPデータベースのアップデートを開始します");
-            final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
-            if (licenseKey == null || licenseKey.isEmpty()) {
-                logger.severe("maxmindのライセンスキーが設定されていません");
-                return false;
-            }
-            final String url = ConfigUtil.getGeoLite2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
-            if (!url.contains("tar.gz")) {
-                logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
-                return false;
-            }
             final URL downloadUrl = new URL(url);
-            final URLConnection conn = downloadUrl.openConnection();
+            conn = downloadUrl.openConnection();
             conn.setConnectTimeout(10000);
             conn.connect();
-            logger.info("GeoIPデータベースをダウンロードしています...");
-            try (final InputStream input = conn.getInputStream();
-                 final GZIPInputStream gzipInput = new GZIPInputStream(input);
-                 final TarInputStream tarInput = new TarInputStream(gzipInput)) {
-                TarEntry entry;
-                while ((entry = tarInput.getNextEntry()) != null) {
-                    if (!entry.isDirectory() && entry.getName().endsWith(".mmdb")) break;
-                }
-                try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
-                    final byte[] buffer = new byte[2048];
-                    int length = tarInput.read(buffer);
-                    while (length >= 0) {
-                        output.write(buffer, 0, length);
-                        length = tarInput.read(buffer);
-                    }
-                }
-            }
-            logger.info("GeoIPデータベースのアップデートが完了しました");
         } catch (final MalformedURLException e) {
             logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
             return false;
@@ -92,6 +75,27 @@ public class GeoIPUtil {
             logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードサーバーに接続できませんでした:", e);
             return false;
         }
+        logger.info("GeoIPデータベースをダウンロードしています...");
+        try (final InputStream input = conn.getInputStream();
+             final GZIPInputStream gzipInput = new GZIPInputStream(input);
+             final TarInputStream tarInput = new TarInputStream(gzipInput)) {
+            TarEntry entry;
+            while ((entry = tarInput.getNextEntry()) != null) {
+                if (!entry.isDirectory() && entry.getName().endsWith(".mmdb")) break;
+            }
+            try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
+                final byte[] buffer = new byte[2048];
+                int length = tarInput.read(buffer);
+                while (length >= 0) {
+                    output.write(buffer, 0, length);
+                    length = tarInput.read(buffer);
+                }
+            }
+        } catch (final IOException e) {
+            logger.log(Level.SEVERE, "何らかの理由でGeoIPデータベースのダウンロードに失敗しました:", e);
+            return false;
+        }
+        logger.info("GeoIPデータベースのアップデートが完了しました");
         return true;
     }
 }
