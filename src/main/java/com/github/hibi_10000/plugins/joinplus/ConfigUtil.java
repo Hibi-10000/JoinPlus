@@ -56,12 +56,12 @@ public class ConfigUtil {
         return getString("messages.kick.message");
     }
 
-    public static String getGeoLite2DownloadURL() {
-        return getString("GeoLite2.Download-URL");
+    public static String getGeoIP2DownloadURL() {
+        return getString("GeoIP2.country.url.download");
     }
 
-    public static String getGeoLite2LicenseKey() {
-        return getString("GeoLite2.LicenseKey");
+    public static String getGeoIP2LicenseKey() {
+        return getString("GeoIP2.licenseKey");
     }
 
     private static String getString(final String path) {

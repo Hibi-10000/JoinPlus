@@ -11,6 +11,23 @@ messages:
   kick:
     enabled: true
     message: '&c<-- &e%player_display_name%&c was kicked (Reason: %reason%).'
-GeoLite2:
-  Download-URL: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
-  LicenseKey: ''
+GeoIP2:
+  country:
+    # enabled: true
+    # databaseFilename: 'GeoLite2-Country.mmdb'
+    url:
+      download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
+      # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+  # city:
+  #   enabled: false
+  #   databaseFilename: 'GeoLite2-City.mmdb'
+  #   url:
+  #     download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz'
+  #     sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+  # api:
+  #   # countryやcityの設定より優先されます
+  #   enabled: false
+  #   # geolite.info or geoip.maxmind.com
+  #   host: 'geolite.info'
+  #   accountID: ~
+  licenseKey: ''

@@ -52,12 +52,12 @@ public class GeoIPUtil {
 
     public boolean updateDB() {
         logger.info("GeoIPデータベースのアップデートを開始します");
-        final String licenseKey = ConfigUtil.getGeoLite2LicenseKey();
+        final String licenseKey = ConfigUtil.getGeoIP2LicenseKey();
         if (licenseKey == null || licenseKey.isEmpty()) {
             logger.severe("maxmindのライセンスキーが設定されていません");
             return false;
         }
-        final String url = ConfigUtil.getGeoLite2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
+        final String url = ConfigUtil.getGeoIP2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
         if (!url.contains("tar.gz")) {
             logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
             return false;
