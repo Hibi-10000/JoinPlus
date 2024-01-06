@@ -2,33 +2,10 @@
 
 Bukkit Plugin for Bukkit 1.17.1~  
 プレイヤーが初めてログイン・ログイン・ログアウト・キックされたときの  
-メッセージをカスタマイズし接続元の国をログイン時に表示します。
+メッセージをカスタマイズしログイン時に接続元の国を表示します。
 
-## Config
-### Messages
-#### FirstJoin
-プレイヤーがサーバーに初めてログインした時に表示されます  
-`enabled`を`false`にすると表示されなくなります  
-`messages`のデフォルト : `&b%player_display_name% &7 has joined for the first time!`  
-
-#### Join
-プレイヤーがサーバーにログインした時に表示されます  
-`enabled`を`false`にすると表示されなくなります  
-`messages`のデフォルト :   
-`&a--> &e%player_display_name%&a connected from &b%player_country% &r(&b%player_ip_masked%&r)&a.`  
-
-#### Quit
-プレイヤーがサーバーからログアウトした時に表示されます  
-`enabled`を`false`にすると表示されなくなります  
-`messages`のデフォルト : `&c<-- &e%player_display_name%&c disconnected.`
-
-#### Kick
-プレイヤーがサーバーからキックされたときに表示されます  
-`enabled`を`false`にすると表示されなくなります  
-`messages`のデフォルト : `&c<-- &e%player_display_name%&c was kicked (Reason: %reason%).`
-
-#### Placeholder
-`messages`に使用できるプレースホルダーの一覧です
+## Placeholder
+`config.yml`内の`messages.*.message`に使用できるプレースホルダーの一覧です
 
 | Placeholder           | 値                          |
 |:----------------------|:---------------------------|
@@ -42,30 +19,21 @@ Bukkit Plugin for Bukkit 1.17.1~
 | %max_players%         | サーバー設定のmax-playersの値       |
 | %reason%              | (Kick時のみ)キックされた理由          |
 
-また、§または&を使用することでカラーコードを使用できます
-
-### GeoLite2
-#### Download-URL
-GeoLite2データベースをダウンロードする時に使用するURLです  
-基本的に変更する必要はありません (GeoIP2を使用したい場合は変更してください)  
-デフォルト : `https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz`
-
-#### LicenseKey
-GeoLite2データベースをダウンロードする時に使用するライセンスキーです  
-[MaxMind](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data?lang=en#accessing-geolite2-free-geolocation-data)
-でアカウントを作ってライセンスキーを生成して貼り付けてください  
-[EssentialsXGeoIP Wiki](https://essentialsx.net/wiki/GeoIP.html)
-に詳しく解説されています
+## LicenseKeyについて
+GeoIP2データベースを更新する際に使用するライセンスキーです  
+`config.yml`内の`GeoIP2.licenseKey`に設定します  
+[MaxMind](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data?lang=en#accessing-geolite2-free-geolocation-data) でアカウントを作ってライセンスキーを生成してください  
+[EssentialsXGeoIP Wiki](https://essentialsx.net/wiki/GeoIP.html) に詳しく解説されています
 
 ## Commands
 
 ※コマンドを実行するには joinplus.command パーミッションが必要です
 
-| command             | about                       |
-|:--------------------|:----------------------------|
-| /joinplus help      | /joinplusの使用法か表示されます        |
-| /joinplus reload    | config.ymlをリロードします          |
-| /joinplus geoupdate | GeoLite2データベースを手動でアップデートします |
+| command             | about                     |
+|:--------------------|:--------------------------|
+| /joinplus help      | /joinplusの使用法か表示されます      |
+| /joinplus reload    | config.ymlをリロードします        |
+| /joinplus geoupdate | GeoIP2データベースを手動でアップデートします |
 
 ## Permissions
 
