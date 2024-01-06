@@ -25,35 +25,35 @@ public class ConfigUtil {
     }
 
     public static boolean getFirstJoinMessageEnabled() {
-        return config.getBoolean("messages.first-join-message.enabled");
+        return config.getBoolean("messages.firstJoin.enabled");
     }
 
     public static String getFirstJoinMessage() {
-        return getString("messages.first-join-message.message");
+        return getString("messages.firstJoin.message");
     }
 
     public static boolean getJoinMessageEnabled() {
-        return config.getBoolean("messages.join-message.enabled");
+        return config.getBoolean("messages.join.enabled");
     }
 
     public static String getJoinMessage() {
-        return getString("messages.join-message.message");
+        return getString("messages.join.message");
     }
 
     public static boolean getQuitMessageEnabled() {
-        return config.getBoolean("messages.quit-message.enabled");
+        return config.getBoolean("messages.quit.enabled");
     }
 
     public static String getQuitMessage() {
-        return getString("messages.quit-message.message");
+        return getString("messages.quit.message");
     }
 
     public static boolean getKickMessageEnabled() {
-        return config.getBoolean("messages.kick-message.enabled");
+        return config.getBoolean("messages.kick.enabled");
     }
 
     public static String getKickMessage() {
-        return getString("messages.kick-message.message");
+        return getString("messages.kick.message");
     }
 
     public static String getGeoLite2DownloadURL() {

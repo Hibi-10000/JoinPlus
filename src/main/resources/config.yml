@@ -1,14 +1,14 @@
 messages:
-  first-join-message:
+  firstJoin:
     enabled: true
     message: '&b%player_display_name% &7 has joined for the first time!'
-  join-message:
+  join:
     enabled: true
     message: '&a--> &e%player_display_name%&a connected from &b%player_country% &r(&b%player_ip_masked%&r)&a.'
-  quit-message:
+  quit:
     enabled: true
     message: '&c<-- &e%player_display_name%&c disconnected.'
-  kick-message:
+  kick:
     enabled: true
     message: '&c<-- &e%player_display_name%&c was kicked (Reason: %reason%).'
 GeoLite2:
