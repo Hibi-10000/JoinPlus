@@ -56,6 +56,10 @@ public class ConfigUtil {
         return getString("messages.kick.message");
     }
 
+    public static String getGeoIP2FileName() {
+        return getString("GeoIP2.country.fileName");
+    }
+
     public static String getGeoIP2DownloadURL() {
         return getString("GeoIP2.country.url.download");
     }

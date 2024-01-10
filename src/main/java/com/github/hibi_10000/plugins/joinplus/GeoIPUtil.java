@@ -81,7 +81,7 @@ public class GeoIPUtil {
              final TarInputStream tarInput = new TarInputStream(gzipInput)) {
             TarEntry entry;
             while ((entry = tarInput.getNextEntry()) != null) {
-                if (!entry.isDirectory() && entry.getName().endsWith(".mmdb")) break;
+                if (!entry.isDirectory() && entry.getName().equals(ConfigUtil.getGeoIP2FileName())) break;
             }
             try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
                 final byte[] buffer = new byte[2048];

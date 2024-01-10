@@ -24,8 +24,8 @@ GeoIP2:
   # プレースホルダーの%player_country%を使用する場合に必要です
   country:
   #   enabled: true
-  #   databaseFilename: 'GeoLite2-Country.mmdb'
-  #   # databaseFilename: 'GeoIP2-Country.mmdb'
+    fileName: 'GeoLite2-Country.mmdb'
+    # fileName: 'GeoIP2-Country.mmdb'
     # GeoIP2データベースをダウンロードする時に使用するURLです
     url:
       download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
@@ -35,8 +35,8 @@ GeoIP2:
   # # プレースホルダーの%player_city%を使用する場合に必要です
   # city:
   #   enabled: false
-  #   databaseFilename: 'GeoLite2-City.mmdb'
-  #   # databaseFilename: 'GeoIP2-City.mmdb'
+  #   fileName: 'GeoLite2-City.mmdb'
+  #   # fileName: 'GeoIP2-City.mmdb'
   #   url:
   #     download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz'
   #     # download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-City&license_key={LICENSE_KEY}&suffix=tar.gz'

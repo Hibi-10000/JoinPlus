@@ -21,7 +21,7 @@ public class JoinPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
         ConfigUtil.setPluginInstance(this);
 
-        databasefile = new File(this.getDataFolder(), "GeoLite2-Country.mmdb");
+        databasefile = new File(this.getDataFolder(), ConfigUtil.getGeoIP2FileName());
         geoutil = new GeoIPUtil(this);
         if (!databasefile.exists()) {
             if (ConfigUtil.getGeoIP2LicenseKey().isEmpty()) {
