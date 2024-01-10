@@ -15,16 +15,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class JoinPlus extends JavaPlugin {
     public GeoIPUtil geoutil;
     public File databasefile;
+    ConfigUtil config;
 
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
-        ConfigUtil.setPluginInstance(this);
+        config = new ConfigUtil(this);
 
-        databasefile = new File(this.getDataFolder(), ConfigUtil.getGeoIP2FileName());
+        databasefile = new File(this.getDataFolder(), config.getGeoIP2FileName());
         geoutil = new GeoIPUtil(this);
         if (!databasefile.exists()) {
-            if (ConfigUtil.getGeoIP2LicenseKey().isEmpty()) {
+            if (config.getGeoIP2LicenseKey().isEmpty()) {
                 if (this.getResource("GeoLite2-Country.mmdb") != null) {
                     this.saveResource("GeoLite2-Country.mmdb", false);
                     getLogger().warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
@@ -58,7 +59,7 @@ public class JoinPlus extends JavaPlugin {
                 }
                 case "reload" -> {
                     if (!checkPermission(sender, "joinplus.command.reload")) return false;
-                    ConfigUtil.reloadConfig();
+                    config.reloadConfig();
                     sender.sendMessage(formatCommandResponse("Configuration reloaded."));
                     return true;
                 }

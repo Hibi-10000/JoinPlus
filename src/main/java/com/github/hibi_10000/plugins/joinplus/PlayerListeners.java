@@ -16,16 +16,16 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!event.getPlayer().hasPlayedBefore() && ConfigUtil.getFirstJoinMessageEnabled()) {
-            final String message = ConfigUtil.getFirstJoinMessage();
+        if (!event.getPlayer().hasPlayedBefore() && plugin.config.getFirstJoinMessageEnabled()) {
+            final String message = plugin.config.getFirstJoinMessage();
             if (message != null) {
-                Bukkit.broadcastMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
+                Bukkit.broadcastMessage(plugin.config.replaceVariables(message, event.getPlayer()));
             }
         }
-        if (ConfigUtil.getJoinMessageEnabled()) {
-            final String message = ConfigUtil.getJoinMessage();
+        if (plugin.config.getJoinMessageEnabled()) {
+            final String message = plugin.config.getJoinMessage();
             if (message != null) {
-                event.setJoinMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
+                event.setJoinMessage(plugin.config.replaceVariables(message, event.getPlayer()));
             } else {
                 event.setJoinMessage(null);
             }
@@ -34,10 +34,10 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
-        if (ConfigUtil.getKickMessageEnabled()) {
-            final String message = ConfigUtil.getKickMessage();
+        if (plugin.config.getKickMessageEnabled()) {
+            final String message = plugin.config.getKickMessage();
             if (message != null) {
-                event.setLeaveMessage(ConfigUtil.replaceVariables(message, event.getPlayer(), event.getReason()));
+                event.setLeaveMessage(plugin.config.replaceVariables(message, event.getPlayer(), event.getReason()));
             } else {
                 event.setLeaveMessage("");
             }
@@ -46,10 +46,10 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (ConfigUtil.getQuitMessageEnabled()) {
-            final String message = ConfigUtil.getQuitMessage();
+        if (plugin.config.getQuitMessageEnabled()) {
+            final String message = plugin.config.getQuitMessage();
             if (message != null) {
-                event.setQuitMessage(ConfigUtil.replaceVariables(message, event.getPlayer()));
+                event.setQuitMessage(plugin.config.replaceVariables(message, event.getPlayer()));
             } else {
                 event.setQuitMessage(null);
             }

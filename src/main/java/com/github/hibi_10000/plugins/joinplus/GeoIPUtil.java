@@ -52,12 +52,12 @@ public class GeoIPUtil {
 
     public boolean updateDB() {
         logger.info("GeoIPデータベースのアップデートを開始します");
-        final String licenseKey = ConfigUtil.getGeoIP2LicenseKey();
+        final String licenseKey = plugin.config.getGeoIP2LicenseKey();
         if (licenseKey == null || licenseKey.isEmpty()) {
             logger.severe("maxmindのライセンスキーが設定されていません");
             return false;
         }
-        final String url = ConfigUtil.getGeoIP2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
+        final String url = plugin.config.getGeoIP2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
         if (!url.contains("tar.gz")) {
             logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
             return false;
@@ -81,7 +81,7 @@ public class GeoIPUtil {
              final TarInputStream tarInput = new TarInputStream(gzipInput)) {
             TarEntry entry;
             while ((entry = tarInput.getNextEntry()) != null) {
-                if (!entry.isDirectory() && entry.getName().equals(ConfigUtil.getGeoIP2FileName())) break;
+                if (!entry.isDirectory() && entry.getName().equals(plugin.config.getGeoIP2FileName())) break;
             }
             try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
                 final byte[] buffer = new byte[2048];

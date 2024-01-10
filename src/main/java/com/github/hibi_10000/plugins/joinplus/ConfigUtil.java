@@ -9,73 +9,71 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 public class ConfigUtil {
-    private ConfigUtil() {}
+    final JoinPlus plugin;
+    FileConfiguration config;
 
-    static JoinPlus plugin;
-    static FileConfiguration config;
-
-    static void setPluginInstance(JoinPlus instance) {
+    ConfigUtil(JoinPlus instance) {
         plugin = instance;
         config = instance.getConfig();
     }
 
-    static void reloadConfig() {
+    void reloadConfig() {
         plugin.reloadConfig();
         config = plugin.getConfig();
     }
 
-    public static boolean getFirstJoinMessageEnabled() {
+    public boolean getFirstJoinMessageEnabled() {
         return config.getBoolean("messages.firstJoin.enabled");
     }
 
-    public static String getFirstJoinMessage() {
+    public String getFirstJoinMessage() {
         return getString("messages.firstJoin.message");
     }
 
-    public static boolean getJoinMessageEnabled() {
+    public boolean getJoinMessageEnabled() {
         return config.getBoolean("messages.join.enabled");
     }
 
-    public static String getJoinMessage() {
+    public String getJoinMessage() {
         return getString("messages.join.message");
     }
 
-    public static boolean getQuitMessageEnabled() {
+    public boolean getQuitMessageEnabled() {
         return config.getBoolean("messages.quit.enabled");
     }
 
-    public static String getQuitMessage() {
+    public String getQuitMessage() {
         return getString("messages.quit.message");
     }
 
-    public static boolean getKickMessageEnabled() {
+    public boolean getKickMessageEnabled() {
         return config.getBoolean("messages.kick.enabled");
     }
 
-    public static String getKickMessage() {
+    public String getKickMessage() {
         return getString("messages.kick.message");
     }
 
-    public static String getGeoIP2FileName() {
+    public String getGeoIP2FileName() {
         return getString("GeoIP2.country.fileName");
     }
 
-    public static String getGeoIP2DownloadURL() {
+    public String getGeoIP2DownloadURL() {
         return getString("GeoIP2.country.url.download");
     }
 
-    public static String getGeoIP2LicenseKey() {
+    public String getGeoIP2LicenseKey() {
         return getString("GeoIP2.licenseKey");
     }
 
-    private static String getString(final String path) {
+    private String getString(final String path) {
         String str = config.getString(path);
         Configuration defaults = config.getDefaults();
         if (str != null && str.isEmpty() && defaults != null) str = defaults.getString(path);
         return str;
     }
 
-    public static String replaceVariables(String string, Player player) {
+    public String replaceVariables(String string, Player player) {
         string = ChatColor.translateAlternateColorCodes('&', string);
         string = string.replace("%player_name%", player.getName());
         string = string.replace("%player_display_name%", player.getDisplayName());
@@ -100,7 +98,7 @@ public class ConfigUtil {
         return string;
     }
 
-    public static String replaceVariables(String string, Player player, String reason) {
+    public String replaceVariables(String string, Player player, String reason) {
         return replaceVariables(string.replace("%reason%", reason), player);
     }
 }
