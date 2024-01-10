@@ -9,15 +9,15 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 public class ConfigUtil {
-    final JoinPlus plugin;
-    FileConfiguration config;
+    private final JoinPlus plugin;
+    private FileConfiguration config;
 
-    ConfigUtil(JoinPlus instance) {
+    public ConfigUtil(JoinPlus instance) {
         plugin = instance;
         config = instance.getConfig();
     }
 
-    void reloadConfig() {
+    public void reloadConfig() {
         plugin.reloadConfig();
         config = plugin.getConfig();
     }

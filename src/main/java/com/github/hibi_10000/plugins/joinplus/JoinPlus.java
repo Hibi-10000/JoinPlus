@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class JoinPlus extends JavaPlugin {
     public GeoIPUtil geoutil;
     public File databasefile;
-    ConfigUtil config;
+    public ConfigUtil config;
 
     @Override
     public void onEnable() {

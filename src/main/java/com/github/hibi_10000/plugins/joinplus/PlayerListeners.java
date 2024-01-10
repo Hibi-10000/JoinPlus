@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListeners implements Listener {
-    final JoinPlus plugin;
+    private final JoinPlus plugin;
 
     public PlayerListeners(JoinPlus instance) {
         this.plugin = instance;
