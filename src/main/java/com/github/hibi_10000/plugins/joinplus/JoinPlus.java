@@ -25,7 +25,7 @@ public class JoinPlus extends JavaPlugin {
         saveDefaultConfig();
         config = new ConfigUtil(this);
         geoutil = new GeoIPUtil(this);
-        databasefile = new File(this.getDataFolder(), config.getGeoIP2FileName());
+        databasefile = new File(this.getDataFolder(), config.getGeoIP2DBFileName());
         if (!databasefile.exists()) {
             if (config.getGeoIP2LicenseKey().isEmpty()) {
                 if (this.getResource("GeoLite2-Country.mmdb") != null) {

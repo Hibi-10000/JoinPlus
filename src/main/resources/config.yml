@@ -21,31 +21,32 @@ messages:
     enabled: true
     message: '&c<-- &e%player_display_name%&c was kicked (Reason: %reason%).'
 GeoIP2:
-  # プレースホルダーの%player_country%を使用する場合に必要です
-  country:
-  #   enabled: true
-    fileName: 'GeoLite2-Country.mmdb'
-    # fileName: 'GeoIP2-Country.mmdb'
-    # GeoIP2データベースをダウンロードする時に使用するURLです
-    url:
-      download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
-      # download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
-  #     sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
-  #     # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
-  # # プレースホルダーの%player_city%を使用する場合に必要です
-  # city:
-  #   enabled: false
-  #   fileName: 'GeoLite2-City.mmdb'
-  #   # fileName: 'GeoIP2-City.mmdb'
-  #   url:
-  #     download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz'
-  #     # download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-City&license_key={LICENSE_KEY}&suffix=tar.gz'
-  #     sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
-  #     # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-City&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+  # # プレイヤーの国と都市を取得する方法を指定します
+  # useType: 'database-country'
+  # # useType: 'database-both'
+  # # useType: 'api'
+  database:
+    # プレースホルダーの%player_country%を使用する場合に使用します
+    country:
+      fileName: 'GeoLite2-Country.mmdb'
+      # fileName: 'GeoIP2-Country.mmdb'
+      # GeoIP2データベースをダウンロードする時に使用するURLです
+      url:
+        download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
+        # download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
+        # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+        # # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+    # # プレースホルダーの%player_city%を使用する場合に使用します
+    # city:
+    #   fileName: 'GeoLite2-City.mmdb'
+    #   # fileName: 'GeoIP2-City.mmdb'
+    #   url:
+    #     download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz'
+    #     # download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-City&license_key={LICENSE_KEY}&suffix=tar.gz'
+    #     sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+    #     # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-City&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
   # # データベースをダウンロードせずにAPIを使用します これだけで%player_country%と%player_city%の両方を使用できますが、データベースを使用する場合より取得に時間がかかります
   # api:
-  #   # countryやcityの設定より優先されます
-  #   enabled: false
   #   host: 'geolite.info'
   #   # host: 'geoip.maxmind.com'
   #   # licenseKeyの一覧を表示する際にリストの上部に表示される"Account ID: "の後に続く数字です ~を削除して数字を入力してください

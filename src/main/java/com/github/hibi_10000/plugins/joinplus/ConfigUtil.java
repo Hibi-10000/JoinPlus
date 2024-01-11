@@ -54,12 +54,12 @@ public class ConfigUtil {
         return getString("messages.kick.message");
     }
 
-    public String getGeoIP2FileName() {
-        return getString("GeoIP2.country.fileName");
+    public String getGeoIP2DBFileName() {
+        return getString("GeoIP2.database.country.fileName");
     }
 
-    public String getGeoIP2DownloadURL() {
-        return getString("GeoIP2.country.url.download");
+    public String getGeoIP2DBDownloadURL() {
+        return getString("GeoIP2.database.country.url.download");
     }
 
     public String getGeoIP2LicenseKey() {
