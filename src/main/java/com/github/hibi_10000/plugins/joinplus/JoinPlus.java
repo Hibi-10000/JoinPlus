@@ -22,9 +22,10 @@ public class JoinPlus extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
+        saveDefaultConfig();
         config = new ConfigUtil(this);
-        databasefile = new File(this.getDataFolder(), config.getGeoIP2FileName());
         geoutil = new GeoIPUtil(this);
+        databasefile = new File(this.getDataFolder(), config.getGeoIP2FileName());
         if (!databasefile.exists()) {
             if (config.getGeoIP2LicenseKey().isEmpty()) {
                 if (this.getResource("GeoLite2-Country.mmdb") != null) {
