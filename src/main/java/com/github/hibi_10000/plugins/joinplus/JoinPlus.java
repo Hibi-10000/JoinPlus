@@ -14,10 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class JoinPlus extends JavaPlugin {
-    public GeoIPUtil geoutil;
+    public final Logger logger = getLogger();
     public File databasefile;
     public ConfigUtil config;
-    public final Logger logger = getLogger();
+    public GeoIPUtil geoutil;
 
     @Override
     public void onEnable() {
