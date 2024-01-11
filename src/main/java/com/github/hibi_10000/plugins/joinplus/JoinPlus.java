@@ -40,11 +40,12 @@ public class JoinPlus extends JavaPlugin {
             } else {
                 geoutil.updateDB();
             }
+        } else {
+            final Date dbDate = geoutil.getDBBuildDate();
+            if (dbDate == null) return;
+            final long diff = new Date().getTime() - dbDate.getTime();
+            if ((diff / 1000 / 3600) > 24) geoutil.updateDB();
         }
-        final Date dbDate = geoutil.getDBBuildDate();
-        if (dbDate == null) return;
-        final long diff = new Date().getTime() - dbDate.getTime();
-        if ((diff / 1000 / 3600) > 24) geoutil.updateDB();
     }
 
     @Override
