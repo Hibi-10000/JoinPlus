@@ -18,6 +18,7 @@ public class JoinPlus extends JavaPlugin {
     public File databasefile;
     public ConfigUtil config;
     public GeoIPUtil geoutil;
+    public DBUpdateUtil dbUpdateUtil;
 
     @Override
     public void onEnable() {
@@ -25,6 +26,7 @@ public class JoinPlus extends JavaPlugin {
         saveDefaultConfig();
         config = new ConfigUtil(this);
         geoutil = new GeoIPUtil(this);
+        dbUpdateUtil = new DBUpdateUtil(this);
         databasefile = new File(this.getDataFolder(), config.getGeoIP2DBFileName());
         if (!databasefile.exists()) {
             if (config.getGeoIP2LicenseKey().isEmpty()) {
@@ -38,13 +40,13 @@ public class JoinPlus extends JavaPlugin {
                     return;
                 }
             } else {
-                geoutil.updateDB();
+                dbUpdateUtil.updateDB();
             }
         } else {
             final Date dbDate = geoutil.getDBBuildDate();
             if (dbDate == null) return;
             final long diff = new Date().getTime() - dbDate.getTime();
-            if ((diff / 1000 / 3600) > 24) geoutil.updateDB();
+            if ((diff / 1000 / 3600) > 24) dbUpdateUtil.updateDB();
         }
     }
 
@@ -70,7 +72,7 @@ public class JoinPlus extends JavaPlugin {
                     if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
                     sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
                     if (sender instanceof Player) logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
-                    if (!geoutil.updateDB()) {
+                    if (!dbUpdateUtil.updateDB()) {
                         sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください。");
                         return false;
                     }
