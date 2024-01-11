@@ -71,7 +71,7 @@ public class JoinPlus extends JavaPlugin {
                     sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
                     if (sender instanceof Player) logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
                     if (!geoutil.updateDB()) {
-                        sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
+                        sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください。");
                         return false;
                     }
                     return true;
