@@ -36,8 +36,6 @@ public class JoinPlus extends JavaPlugin {
                 } else {
                     logger.severe("maxmindのライセンスキーが設定されていなかったため、GeoIPを使用できません！");
                     logger.severe("ライセンスキーを設定するか、GeoIPデータベースを手動で配置してください！");
-                    getServer().getPluginManager().disablePlugin(this);
-                    return;
                 }
             } else {
                 dbUpdateUtil.updateDB();

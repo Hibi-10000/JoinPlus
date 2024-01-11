@@ -17,6 +17,7 @@ public class GeoIPUtil {
     }
 
     public String getCountry(final InetAddress ipAddress) {
+        if (plugin.databasefile.exists()) return "N/A";
         if (ipAddress.isLoopbackAddress() || ipAddress.isAnyLocalAddress()) {
             return "LocalHost";
         }
