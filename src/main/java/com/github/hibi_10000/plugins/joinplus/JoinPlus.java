@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,6 +17,7 @@ public class JoinPlus extends JavaPlugin {
     public GeoIPUtil geoutil;
     public File databasefile;
     public ConfigUtil config;
+    public final Logger logger = getLogger();
 
     @Override
     public void onEnable() {
@@ -28,10 +30,10 @@ public class JoinPlus extends JavaPlugin {
             if (config.getGeoIP2LicenseKey().isEmpty()) {
                 if (this.getResource("GeoLite2-Country.mmdb") != null) {
                     this.saveResource("GeoLite2-Country.mmdb", false);
-                    getLogger().warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
+                    logger.warning("maxmindのライセンスキーが設定されていなかったため、デフォルトのデータベースを使用します");
                 } else {
-                    getLogger().severe("maxmindのライセンスキーが設定されていなかったため、GeoIPを使用できません！");
-                    getLogger().severe("ライセンスキーを設定するか、GeoIPデータベースを手動で配置してください！");
+                    logger.severe("maxmindのライセンスキーが設定されていなかったため、GeoIPを使用できません！");
+                    logger.severe("ライセンスキーを設定するか、GeoIPデータベースを手動で配置してください！");
                     getServer().getPluginManager().disablePlugin(this);
                     return;
                 }
@@ -66,7 +68,7 @@ public class JoinPlus extends JavaPlugin {
                 case "geoupdate" -> {
                     if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
                     sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
-                    if (sender instanceof Player) getLogger().info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
+                    if (sender instanceof Player) logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
                     if (!geoutil.updateDB()) {
                         sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートが失敗しました。コンソールに出力したログを確認してください。");
                         return false;

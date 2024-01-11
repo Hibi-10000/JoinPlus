@@ -13,16 +13,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
 public class GeoIPUtil {
     private final JoinPlus plugin;
-    private final Logger logger;
 
     public GeoIPUtil(JoinPlus instance) {
         this.plugin = instance;
-        this.logger = instance.getLogger();
     }
 
     public String getCountry(final InetAddress ipAddress) {
@@ -36,7 +33,7 @@ public class GeoIPUtil {
             }
             return response.getCountry().getName();
         } catch (final IOException | GeoIp2Exception e) {
-            logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
+            plugin.logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
             return "N/A";
         }
     }
@@ -45,21 +42,21 @@ public class GeoIPUtil {
         try (DatabaseReader mmReader = new DatabaseReader.Builder(plugin.databasefile).build()) {
             return mmReader.getMetadata().getBuildDate();
         } catch (final IOException e) {
-            logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
+            plugin.logger.log(Level.SEVERE, "GeoIPデータベースの読み込みに失敗しました", e);
             return null;
         }
     }
 
     public boolean updateDB() {
-        logger.info("GeoIPデータベースのアップデートを開始します");
+        plugin.logger.info("GeoIPデータベースのアップデートを開始します");
         final String licenseKey = plugin.config.getGeoIP2LicenseKey();
         if (licenseKey == null || licenseKey.isEmpty()) {
-            logger.severe("maxmindのライセンスキーが設定されていません");
+            plugin.logger.severe("maxmindのライセンスキーが設定されていません");
             return false;
         }
         final String url = plugin.config.getGeoIP2DownloadURL().replace("{LICENSE_KEY}", licenseKey);
         if (!url.contains("tar.gz")) {
-            logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
+            plugin.logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
             return false;
         }
         final URLConnection conn;
@@ -69,13 +66,13 @@ public class GeoIPUtil {
             conn.setConnectTimeout(10000);
             conn.connect();
         } catch (final MalformedURLException e) {
-            logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
+            plugin.logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
             return false;
         } catch (final IOException e) {
-            logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードサーバーに接続できませんでした:", e);
+            plugin.logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードサーバーに接続できませんでした:", e);
             return false;
         }
-        logger.info("GeoIPデータベースをダウンロードしています...");
+        plugin.logger.info("GeoIPデータベースをダウンロードしています...");
         try (final InputStream input = conn.getInputStream();
              final GZIPInputStream gzipInput = new GZIPInputStream(input);
              final TarInputStream tarInput = new TarInputStream(gzipInput)) {
@@ -92,10 +89,10 @@ public class GeoIPUtil {
                 }
             }
         } catch (final IOException e) {
-            logger.log(Level.SEVERE, "何らかの理由でGeoIPデータベースのダウンロードに失敗しました:", e);
+            plugin.logger.log(Level.SEVERE, "何らかの理由でGeoIPデータベースのダウンロードに失敗しました:", e);
             return false;
         }
-        logger.info("GeoIPデータベースのアップデートが完了しました");
+        plugin.logger.info("GeoIPデータベースのアップデートが完了しました");
         return true;
     }
 }
