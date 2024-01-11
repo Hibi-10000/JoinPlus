@@ -23,7 +23,6 @@ public class JoinPlus extends JavaPlugin {
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
         config = new ConfigUtil(this);
-
         databasefile = new File(this.getDataFolder(), config.getGeoIP2FileName());
         geoutil = new GeoIPUtil(this);
         if (!databasefile.exists()) {
