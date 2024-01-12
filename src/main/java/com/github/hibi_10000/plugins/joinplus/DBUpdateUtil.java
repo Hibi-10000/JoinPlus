@@ -54,12 +54,7 @@ public class DBUpdateUtil {
                 if (!entry.isDirectory() && entry.getName().equals(plugin.config.getGeoIP2DBFileName())) break;
             }
             try (final OutputStream output = new FileOutputStream(plugin.databasefile)) {
-                final byte[] buffer = new byte[2048];
-                int length = tarInput.read(buffer);
-                while (length >= 0) {
-                    output.write(buffer, 0, length);
-                    length = tarInput.read(buffer);
-                }
+                tarInput.transferTo(output);
             }
         } catch (final IOException e) {
             plugin.logger.log(Level.SEVERE, "何らかの理由でGeoIPデータベースのダウンロードに失敗しました:", e);
