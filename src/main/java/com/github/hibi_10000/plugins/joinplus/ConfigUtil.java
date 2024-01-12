@@ -83,7 +83,7 @@ public class ConfigUtil {
         InetSocketAddress socketAddress = player.getAddress();
         if (socketAddress != null) {
             InetAddress address = player.getAddress().getAddress();
-            string = string.replace("%player_country%", plugin.geoutil.getCountry(address));
+            string = string.replace("%player_country%", plugin.geoUtil.getCountry(address));
             //string = string.replace("%player_city%", plugin.geoutil.getCity(address));
             String hostAddress = address.getHostAddress();
             string = string.replace("%player_ip%", hostAddress);

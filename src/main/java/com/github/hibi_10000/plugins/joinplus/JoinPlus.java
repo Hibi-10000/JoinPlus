@@ -15,18 +15,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class JoinPlus extends JavaPlugin {
-    public final Logger logger = getLogger();
-    public File databasefile;
-    public ConfigUtil config;
-    public GeoIPUtil geoutil;
-    public DBUpdateUtil dbUpdateUtil;
+    final Logger logger = getLogger();
+    File databasefile;
+    ConfigUtil config;
+    GeoIPUtil geoUtil;
+    DBUpdateUtil dbUpdateUtil;
 
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
         saveDefaultConfig();
         config = new ConfigUtil(this);
-        geoutil = new GeoIPUtil(this);
+        geoUtil = new GeoIPUtil(this);
         dbUpdateUtil = new DBUpdateUtil(this);
         databasefile = new File(this.getDataFolder(), config.getGeoIP2DBFileName());
         if (!databasefile.exists()) {
@@ -42,7 +42,7 @@ public class JoinPlus extends JavaPlugin {
                 dbUpdateUtil.updateDB();
             }
         } else {
-            final Date dbDate = geoutil.getDBBuildDate();
+            final Date dbDate = geoUtil.getDBBuildDate();
             if (dbDate == null) return;
             final long diff = new Date().getTime() - dbDate.getTime();
             if ((diff / 1000 / 3600) > 24) dbUpdateUtil.updateDB();
