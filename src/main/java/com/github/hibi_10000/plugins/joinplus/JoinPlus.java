@@ -12,6 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class JoinPlus extends JavaPlugin {
     public final Logger logger = getLogger();
@@ -49,7 +50,7 @@ public class JoinPlus extends JavaPlugin {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("joinplus")) return false;
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
@@ -83,7 +84,7 @@ public class JoinPlus extends JavaPlugin {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("joinplus")) return Collections.emptyList();
         if (args.length == 1) {
             List<String> list = new ArrayList<>();
