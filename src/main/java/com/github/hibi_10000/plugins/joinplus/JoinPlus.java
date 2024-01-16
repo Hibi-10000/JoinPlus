@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +53,7 @@ public class JoinPlus extends JavaPlugin {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("joinplus")) return false;
+        if (!(sender instanceof Player || sender instanceof ConsoleCommandSender)) return false;
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "help" -> {
