@@ -63,10 +63,6 @@ public class DBUpdateUtil {
     public String getHash() {
         final String licenseKey = plugin.config.getGeoIP2LicenseKey();
         final String url = plugin.config.getGeoIP2DBSha256URL().replace("{LICENSE_KEY}", licenseKey);
-        if (!url.contains("tar.gz.sha256")) {
-            plugin.logger.severe("GeoIPデータベースのSHA256のダウンロードURLが間違っています");
-            return null;
-        }
         final URLConnection conn = getConnection(url);
         if (conn == null) return null;
         String hash;
@@ -96,10 +92,6 @@ public class DBUpdateUtil {
         plugin.logger.info("GeoIPデータベースのアップデートを開始します");
         final String licenseKey = plugin.config.getGeoIP2LicenseKey();
         final String url = plugin.config.getGeoIP2DBDownloadURL().replace("{LICENSE_KEY}", licenseKey);
-        if (!url.contains("tar.gz")) {
-            plugin.logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
-            return false;
-        }
         final URLConnection conn = getConnection(url);
         if (conn == null) return false;
         plugin.logger.info("GeoIPデータベースをダウンロードしています...");
