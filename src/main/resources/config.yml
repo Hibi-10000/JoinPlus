@@ -34,8 +34,8 @@ GeoIP2:
       url:
         download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
         # download: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz'
-        # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
-        # # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+        sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
+        # sha256: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoIP2-Country&license_key={LICENSE_KEY}&suffix=tar.gz.sha256'
     # # プレースホルダーの%player_city%を使用する場合に使用します
     # city:
     #   fileName: 'GeoLite2-City.mmdb'

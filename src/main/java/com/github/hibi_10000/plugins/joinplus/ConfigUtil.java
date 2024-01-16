@@ -62,6 +62,10 @@ public class ConfigUtil {
         return getString("GeoIP2.database.country.url.download");
     }
 
+    public String getGeoIP2DBSha256URL() {
+        return getString("GeoIP2.database.country.url.sha256");
+    }
+
     public String getGeoIP2LicenseKey() {
         return getString("GeoIP2.licenseKey");
     }
