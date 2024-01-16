@@ -24,6 +24,11 @@ public class DBUpdateUtil {
         this.plugin = instance;
     }
 
+    public static String fileHash(InputStream input) throws IOException {
+        byte[] bytes = ByteStreams.toByteArray(input);
+        return Hashing.sha256().hashBytes(bytes).toString();
+    }
+
     public void schedule() {
         final Date dbDate = plugin.geoUtil.getDBBuildDate();
         if (dbDate == null) return;
@@ -33,11 +38,6 @@ public class DBUpdateUtil {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             if (checkUpdates()) updateDB();
         }, later / 50, 20L * 60 * 60 * 24);
-    }
-
-    public String fileHash(InputStream input) throws IOException {
-        byte[] bytes = ByteStreams.toByteArray(input);
-        return Hashing.sha256().hashBytes(bytes).toString();
     }
 
     public URLConnection getConnection(String url) {
@@ -121,17 +121,6 @@ public class DBUpdateUtil {
         return true;
     }
 
-    public UpdaterJson getJson() {
-        File updaterJson = new File(plugin.getDataFolder(), "dbupdater.json");
-        if (!updaterJson.exists() || updaterJson.isDirectory()) return null;
-        try (FileReader reader = new FileReader(updaterJson, StandardCharsets.UTF_8)) {
-            return new Gson().fromJson(reader, UpdaterJson.class);
-        } catch (IOException e) {
-            plugin.logger.log(Level.SEVERE, "dbupdater.jsonの読み込みに失敗しました", e);
-            return null;
-        }
-    }
-
     void updateJsonCountry(String sha256) {
         UpdaterJson json = getJson();
         if (json == null) json = new UpdaterJson();
@@ -140,6 +129,17 @@ public class DBUpdateUtil {
         country.setLastCheckUpdate(new Date().getTime());
         json.setCountry(country);
         updateJson(json);
+    }
+
+    UpdaterJson getJson() {
+        File updaterJson = new File(plugin.getDataFolder(), "dbupdater.json");
+        if (!updaterJson.exists() || updaterJson.isDirectory()) return null;
+        try (FileReader reader = new FileReader(updaterJson, StandardCharsets.UTF_8)) {
+            return new Gson().fromJson(reader, UpdaterJson.class);
+        } catch (IOException e) {
+            plugin.logger.log(Level.SEVERE, "dbupdater.jsonの読み込みに失敗しました", e);
+            return null;
+        }
     }
 
     void updateJson(@NotNull UpdaterJson json) {
@@ -152,36 +152,50 @@ public class DBUpdateUtil {
         }
     }
 
-    class UpdaterJson {
-        @NotNull private UpdaterJsonData country = new UpdaterJsonData();
-        @NotNull private UpdaterJsonData city = new UpdaterJsonData();
+    static class UpdaterJson {
+        @NotNull
+        private UpdaterJsonData country = new UpdaterJsonData();
+        @NotNull
+        private UpdaterJsonData city = new UpdaterJsonData();
 
-        @NotNull public UpdaterJsonData getCountry() {
+        @NotNull
+        public UpdaterJsonData getCountry() {
             return country;
         }
-        @NotNull public UpdaterJsonData getCity() {
+
+        @NotNull
+        public UpdaterJsonData getCity() {
             return city;
         }
+
         public void setCountry(@NotNull UpdaterJsonData country) {
             this.country = country;
         }
+
         public void setCity(@NotNull UpdaterJsonData city) {
             this.city = city;
         }
 
-        class UpdaterJsonData {
-            @NotNull private String sha256 = "";
-            @NotNull private Long lastCheckUpdate = 0L;
+        static class UpdaterJsonData {
+            @NotNull
+            private String sha256 = "";
+            @NotNull
+            private Long lastCheckUpdate = 0L;
 
-            @NotNull public String getSha256() {
+            @NotNull
+            public String getSha256() {
                 return sha256;
             }
-            @NotNull public Long getLastCheckUpdate() {
+
+            @NotNull
+            public Long getLastCheckUpdate() {
                 return lastCheckUpdate;
             }
+
             public void setSha256(@NotNull String sha256) {
                 this.sha256 = sha256;
             }
+
             public void setLastCheckUpdate(@NotNull Long lastCheckUpdate) {
                 this.lastCheckUpdate = lastCheckUpdate;
             }
