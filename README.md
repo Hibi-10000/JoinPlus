@@ -5,7 +5,7 @@ Bukkit Plugin for Bukkit 1.17.1~
 メッセージをカスタマイズしログイン時に接続元の国を表示します。
 
 ## Placeholder
-`config.yml`内の`messages.*.message`に使用できるプレースホルダーの一覧です
+`config.yml`内の`messages.*.message`内で使用できるプレースホルダーの一覧です
 
 | Placeholder           | 値                          |
 |:----------------------|:---------------------------|
@@ -31,14 +31,14 @@ GeoIP2データベースを更新する際に使用するライセンスキー�
 
 | command             | about                     |
 |:--------------------|:--------------------------|
-| /joinplus help      | /joinplusの使用法か表示されます      |
-| /joinplus reload    | config.ymlをリロードします        |
+| /joinplus help      | `/joinplus`の使用法か表示されます    |
+| /joinplus reload    | `config.yml`をリロードします      |
 | /joinplus geoupdate | GeoIP2データベースを手動でアップデートします |
 
 ## Permissions
 
-| permission         | about                         | default |
-|:-------------------|:------------------------------|:--------|
-| joinplus.command   | /joinplusコマンドが使用できる           | OP      |
-| joinplus.reload    | /joinplus reloadコマンドが使用できる    | OP      |
-| joinplus.geoupdate | /joinplus geoupdateコマンドが使用できる | OP      |
+| permission         | about                           | default |
+|:-------------------|:--------------------------------|:--------|
+| joinplus.command   | `/joinplus`コマンドが使用できる           | OP      |
+| joinplus.reload    | `/joinplus reload`コマンドが使用できる    | OP      |
+| joinplus.geoupdate | `/joinplus geoupdate`コマンドが使用できる | OP      |
