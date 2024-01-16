@@ -28,15 +28,18 @@ public class DBUpdateUtil {
             plugin.logger.severe("GeoIPデータベースのダウンロードURLが間違っています");
             return false;
         }
-        final URLConnection conn;
+        final URL downloadUrl;
         try {
-            final URL downloadUrl = new URL(url);
-            conn = downloadUrl.openConnection();
-            conn.setConnectTimeout(10000);
-            conn.connect();
+            downloadUrl = new URL(url);
         } catch (final MalformedURLException e) {
             plugin.logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードURLが間違っています:", e);
             return false;
+        }
+        final URLConnection conn;
+        try {
+            conn = downloadUrl.openConnection();
+            conn.setConnectTimeout(10000);
+            conn.connect();
         } catch (final IOException e) {
             plugin.logger.log(Level.SEVERE, "GeoIPデータベースのダウンロードサーバーに接続できませんでした:", e);
             return false;
