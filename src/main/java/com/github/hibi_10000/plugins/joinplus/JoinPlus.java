@@ -57,35 +57,35 @@ public class JoinPlus extends JavaPlugin {
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "help" -> {
-                    sender.sendMessage(formatCommandResponse("Available Commands:"));
-                    sender.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + ": This general plugin information."));
-                    sender.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus reload" + ChatColor.GRAY + ": Reloads the configuration."));
-                    sender.sendMessage(formatCommandResponse(ChatColor.AQUA + "/joinplus geoupdate" + ChatColor.GRAY + ": Updates the database."));
+                    sendMessage(sender, ChatColor.GRAY, "Available Commands:");
+                    sendMessage(sender, ChatColor.AQUA, "/joinplus help" + ChatColor.GRAY + ": This general plugin information.");
+                    sendMessage(sender, ChatColor.AQUA, "/joinplus reload" + ChatColor.GRAY + ": Reloads the configuration.");
+                    sendMessage(sender, ChatColor.AQUA, "/joinplus geoupdate" + ChatColor.GRAY + ": Updates the database.");
                     return true;
                 }
                 case "reload" -> {
                     if (!checkPermission(sender, "joinplus.command.reload")) return false;
                     config.reloadConfig();
-                    sender.sendMessage(formatCommandResponse("Configuration reloaded."));
+                    sendMessage(sender, ChatColor.GRAY, "Configuration reloaded.");
                     return true;
                 }
                 case "geoupdate" -> {
                     if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
                     if (config.getGeoIP2LicenseKey().isEmpty()) {
-                        sender.sendMessage("§e[JoinPlus]§c maxmindのライセンスキーが設定されていないため、GeoIPデータベースのアップデートはできません");
+                        sendMessage(sender, ChatColor.RED, "maxmindのライセンスキーが設定されていないため、GeoIPデータベースのアップデートはできません");
                         return false;
                     }
                     if (sender instanceof Player) {
-                        sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースのアップデートを確認しています");
+                        sendMessage(sender, ChatColor.GREEN, "GeoIPデータベースのアップデートを確認しています");
                         logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
                         if (dbUpdateUtil.checkUpdates()) {
-                            sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースをアップデートしています");
+                            sendMessage(sender, ChatColor.GREEN, "GeoIPデータベースをアップデートしています");
                             if (!dbUpdateUtil.updateDB()) {
-                                sender.sendMessage("§e[JoinPlus]§c GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください");
+                                sendMessage(sender, ChatColor.RED, "GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください");
                                 return false;
                             }
-                            sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースのアップデートが完了しました");
-                        } else sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースは最新です");
+                            sendMessage(sender, ChatColor.GREEN, "GeoIPデータベースのアップデートが完了しました");
+                        } else sendMessage(sender, ChatColor.GREEN, "GeoIPデータベースは最新です");
                     } else {
                         if (dbUpdateUtil.checkUpdates()) dbUpdateUtil.updateDB();
                     }
@@ -93,7 +93,7 @@ public class JoinPlus extends JavaPlugin {
                 }
             }
         }
-        sender.sendMessage(formatCommandResponse("Unknown command. Type " + ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + " for help."));
+        sendMessage(sender, ChatColor.GRAY, "Unknown command. Type " + ChatColor.AQUA + "/joinplus help" + ChatColor.GRAY + " for help.");
         return false;
     }
 
@@ -110,17 +110,14 @@ public class JoinPlus extends JavaPlugin {
         return Collections.emptyList();
     }
 
-    public static String formatCommandResponse(String string) {
-        return ChatColor.YELLOW + "[JoinPlus] " + ChatColor.GRAY + string;
+    public static void sendMessage(CommandSender sender, ChatColor color, String message) {
+        sender.sendMessage(ChatColor.YELLOW + "[JoinPlus] " + color + message);
     }
 
-    public static String getNoPermissionMessage() {
-        return formatCommandResponse("§cYou don't have permission to do that.");
-    }
-
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean checkPermission(CommandSender sender, String permission) {
         if (sender.hasPermission(permission)) return true;
-        sender.sendMessage(getNoPermissionMessage());
+        sendMessage(sender, ChatColor.RED, "You don't have permission to do that.");
         return false;
     }
 }
