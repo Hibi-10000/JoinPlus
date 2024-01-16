@@ -3,7 +3,6 @@ package com.github.hibi_10000.plugins.joinplus;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -44,10 +43,7 @@ public class JoinPlus extends JavaPlugin {
             }
         } else {
             if (!config.getGeoIP2LicenseKey().isEmpty()) {
-                final Date dbDate = geoUtil.getDBBuildDate();
-                if (dbDate == null) return;
-                final long diff = new Date().getTime() - dbDate.getTime();
-                if ((diff / 1000 / 3600) > 24 && dbUpdateUtil.checkUpdates()) dbUpdateUtil.updateDB();
+                dbUpdateUtil.schedule();
             } else {
                 logger.warning("maxmindのライセンスキーが設定されていないため、GeoIPデータベースはアップデートされません");
             }

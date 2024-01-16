@@ -24,6 +24,17 @@ public class DBUpdateUtil {
         this.plugin = instance;
     }
 
+    public void schedule() {
+        final Date dbDate = plugin.geoUtil.getDBBuildDate();
+        if (dbDate == null) return;
+        final long diff = new Date().getTime() - dbDate.getTime();
+        long later = (1000 * 60 * 60 * 24) - diff;
+        if ((diff / (1000 * 60 * 60)) > 24) later = 0;
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+            if (checkUpdates()) updateDB();
+        }, later / 50, 20L * 60 * 60 * 24);
+    }
+
     public String fileHash(InputStream input) throws IOException {
         byte[] bytes = ByteStreams.toByteArray(input);
         return Hashing.sha256().hashBytes(bytes).toString();
