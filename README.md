@@ -37,6 +37,8 @@ GeoIP2データベースを更新する際に使用するライセンスキー�
 
 ## Permissions
 
-| permission       | about               | default |
-|:-----------------|:--------------------|:--------|
-| joinplus.command | /joinplusコマンドが使用できる | OP      |
+| permission         | about                         | default |
+|:-------------------|:------------------------------|:--------|
+| joinplus.command   | /joinplusコマンドが使用できる           | OP      |
+| joinplus.reload    | /joinplus reloadコマンドが使用できる    | OP      |
+| joinplus.geoupdate | /joinplus geoupdateコマンドが使用できる | OP      |
