@@ -47,7 +47,7 @@ public class JoinPlus extends JavaPlugin {
                 final Date dbDate = geoUtil.getDBBuildDate();
                 if (dbDate == null) return;
                 final long diff = new Date().getTime() - dbDate.getTime();
-                if ((diff / 1000 / 3600) > 24) dbUpdateUtil.updateDB();
+                if ((diff / 1000 / 3600) > 24 && dbUpdateUtil.checkUpdates()) dbUpdateUtil.updateDB();
             } else {
                 logger.warning("maxmindのライセンスキーが設定されていないため、GeoIPデータベースはアップデートされません");
             }
@@ -76,18 +76,22 @@ public class JoinPlus extends JavaPlugin {
                 case "geoupdate" -> {
                     if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
                     if (config.getGeoIP2LicenseKey().isEmpty()) {
-                        sender.sendMessage("§a[JoinPlus]§c maxmindのライセンスキーが設定されていないため、GeoIPデータベースのアップデートはできません");
+                        sender.sendMessage("§e[JoinPlus]§c maxmindのライセンスキーが設定されていないため、GeoIPデータベースのアップデートはできません");
                         return false;
                     }
                     if (sender instanceof Player) {
-                        sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
+                        sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースのアップデートを確認しています");
                         logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
-                        if (!dbUpdateUtil.updateDB()) {
-                            sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください。");
-                            return false;
-                        }
+                        if (dbUpdateUtil.checkUpdates()) {
+                            sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースをアップデートしています");
+                            if (!dbUpdateUtil.updateDB()) {
+                                sender.sendMessage("§e[JoinPlus]§c GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください");
+                                return false;
+                            }
+                            sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースのアップデートが完了しました");
+                        } else sender.sendMessage("§e[JoinPlus]§a GeoIPデータベースは最新です");
                     } else {
-                        dbUpdateUtil.updateDB();
+                        if (dbUpdateUtil.checkUpdates()) dbUpdateUtil.updateDB();
                     }
                     return true;
                 }
