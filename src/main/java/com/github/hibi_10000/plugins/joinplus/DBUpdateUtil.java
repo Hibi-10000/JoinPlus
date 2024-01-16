@@ -23,10 +23,6 @@ public class DBUpdateUtil {
     public boolean updateDB() {
         plugin.logger.info("GeoIPデータベースのアップデートを開始します");
         final String licenseKey = plugin.config.getGeoIP2LicenseKey();
-        if (licenseKey == null || licenseKey.isEmpty()) {
-            plugin.logger.severe("maxmindのライセンスキーが設定されていません");
-            return false;
-        }
         final String url = plugin.config.getGeoIP2DBDownloadURL().replace("{LICENSE_KEY}", licenseKey);
         if (!url.contains("tar.gz")) {
             plugin.logger.severe("GeoIPデータベースのダウンロードURLが間違っています");

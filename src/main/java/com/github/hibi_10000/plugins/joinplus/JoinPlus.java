@@ -43,10 +43,14 @@ public class JoinPlus extends JavaPlugin {
                 dbUpdateUtil.updateDB();
             }
         } else {
-            final Date dbDate = geoUtil.getDBBuildDate();
-            if (dbDate == null) return;
-            final long diff = new Date().getTime() - dbDate.getTime();
-            if ((diff / 1000 / 3600) > 24) dbUpdateUtil.updateDB();
+            if (!config.getGeoIP2LicenseKey().isEmpty()) {
+                final Date dbDate = geoUtil.getDBBuildDate();
+                if (dbDate == null) return;
+                final long diff = new Date().getTime() - dbDate.getTime();
+                if ((diff / 1000 / 3600) > 24) dbUpdateUtil.updateDB();
+            } else {
+                logger.warning("maxmindのライセンスキーが設定されていないため、GeoIPデータベースはアップデートされません");
+            }
         }
     }
 
@@ -71,6 +75,10 @@ public class JoinPlus extends JavaPlugin {
                 }
                 case "geoupdate" -> {
                     if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
+                    if (config.getGeoIP2LicenseKey().isEmpty()) {
+                        sender.sendMessage("§a[JoinPlus]§c maxmindのライセンスキーが設定されていないため、GeoIPデータベースのアップデートはできません");
+                        return false;
+                    }
                     if (sender instanceof Player) {
                         sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
                         logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
