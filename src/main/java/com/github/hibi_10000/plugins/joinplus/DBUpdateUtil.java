@@ -123,11 +123,11 @@ public class DBUpdateUtil {
 
     public UpdaterJson getJson() {
         File updaterJson = new File(plugin.getDataFolder(), "dbupdater.json");
-        if (!updaterJson.exists()) return null;
+        if (!updaterJson.exists() || updaterJson.isDirectory()) return null;
         try (FileReader reader = new FileReader(updaterJson, StandardCharsets.UTF_8)) {
             return new Gson().fromJson(reader, UpdaterJson.class);
         } catch (IOException e) {
-            plugin.logger.log(Level.SEVERE, "", e);
+            plugin.logger.log(Level.SEVERE, "dbupdater.jsonの読み込みに失敗しました", e);
             return null;
         }
     }
@@ -148,7 +148,7 @@ public class DBUpdateUtil {
         try (FileWriter writer = new FileWriter(updaterJson, StandardCharsets.UTF_8)) {
             gson.toJson(json, writer);
         } catch (IOException e) {
-            plugin.logger.log(Level.SEVERE, "", e);
+            plugin.logger.log(Level.SEVERE, "dbupdater.jsonへの書き込みに失敗しました", e);
         }
     }
 
