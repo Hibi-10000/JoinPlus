@@ -71,11 +71,15 @@ public class JoinPlus extends JavaPlugin {
                 }
                 case "geoupdate" -> {
                     if (!checkPermission(sender, "joinplus.command.geoupdate")) return false;
-                    sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
-                    if (sender instanceof Player) logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
-                    if (!dbUpdateUtil.updateDB()) {
-                        sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください。");
-                        return false;
+                    if (sender instanceof Player) {
+                        sender.sendMessage("§a[JoinPlus] GeoIPデータベースのアップデートを開始しました");
+                        logger.info(sender.getName() + " がGeoIPデータベースのアップデートを開始しました");
+                        if (!dbUpdateUtil.updateDB()) {
+                            sender.sendMessage("§c[JoinPlus] GeoIPデータベースのアップデートに失敗しました。コンソールに出力したログを確認してください。");
+                            return false;
+                        }
+                    } else {
+                        dbUpdateUtil.updateDB();
                     }
                     return true;
                 }
