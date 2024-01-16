@@ -4,8 +4,9 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ice.tar.TarEntry;
-import com.ice.tar.TarInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -15,7 +16,6 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.zip.GZIPInputStream;
 
 public class DBUpdateUtil {
     private final JoinPlus plugin;
@@ -96,8 +96,8 @@ public class DBUpdateUtil {
         if (conn == null) return false;
         plugin.logger.info("GeoIPデータベースをダウンロードしています...");
         try (final InputStream input = conn.getInputStream();
-             final GZIPInputStream gzipInput = new GZIPInputStream(input);
-             final TarInputStream tarInput = new TarInputStream(gzipInput)) {
+             final GzipCompressorInputStream gzipInput = new GzipCompressorInputStream(input);
+             final TarArchiveInputStream tarInput = new TarArchiveInputStream(gzipInput)) {
             String fileHash = fileHash(input);
             String expectHash = getHash();
             if (expectHash == null) return false;
@@ -105,7 +105,7 @@ public class DBUpdateUtil {
                 plugin.logger.severe("ダウンロードしたファイルのハッシュ検証に失敗しました");
                 return false;
             }
-            TarEntry entry;
+            TarArchiveEntry entry;
             while ((entry = tarInput.getNextEntry()) != null) {
                 if (!entry.isDirectory() && entry.getName().equals(plugin.config.getGeoIP2DBFileName())) break;
             }
