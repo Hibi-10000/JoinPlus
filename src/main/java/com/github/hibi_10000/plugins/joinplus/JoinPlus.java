@@ -60,7 +60,6 @@ public class JoinPlus extends JavaPlugin {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("joinplus")) return false;
         if (!(sender instanceof Player || sender instanceof ConsoleCommandSender)) return false;
-        if (!checkPermission(sender, "joinplus.command")) return false;
         if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "help" -> {
