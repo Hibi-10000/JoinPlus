@@ -7,7 +7,7 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
-    `java-library`
+    java
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
@@ -15,6 +15,7 @@ group = "com.github.hibi_10000.plugins"
 version = "1.3.0-SNAPSHOT"
 description = "JoinPlus"
 java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -23,9 +24,9 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains:annotations:24.1.0")
-    api("com.maxmind.geoip2:geoip2:4.2.0")
-    api("org.apache.commons:commons-compress:1.25.0")
+    annotationProcessor("org.jetbrains:annotations:24.1.0")
+    implementation("com.maxmind.geoip2:geoip2:4.2.0")
+    implementation("org.apache.commons:commons-compress:1.25.0")
 }
 
 tasks.withType<JavaCompile> {
