@@ -24,8 +24,11 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
-    annotationProcessor("org.jetbrains:annotations:24.1.0")
+    // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    compileOnly("org.jetbrains:annotations:24.1.0")
+    // https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2
     implementation("com.maxmind.geoip2:geoip2:4.2.0")
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-compress
     implementation("org.apache.commons:commons-compress:1.25.0")
 }
 
