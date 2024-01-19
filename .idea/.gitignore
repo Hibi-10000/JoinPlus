@@ -1,0 +1,16 @@
+/inspectionProfiles/
+/modules/
+/sonarlint/
+*.iml
+*.xml
+!/copyright/*.xml
+!/dictionaries/joinplus.xml
+!/.gitignore
+!/compiler.xml
+!/encodings.xml
+!/markdown.xml
+!/vcs.xml
+
+# デフォルトの無視対象ファイル
+/shelf/
+/workspace.xml
